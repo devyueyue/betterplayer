@@ -15,15 +15,19 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
   @override
   void initState() {
     BetterPlayerConfiguration betterPlayerConfiguration =
-        BetterPlayerConfiguration(
-      aspectRatio: 16 / 9,
-      fit: BoxFit.contain,
-      autoPlay: true,
-      looping: true,
-      deviceOrientationsAfterFullScreen: [
-        DeviceOrientation.portraitDown,
-        DeviceOrientation.portraitUp
-      ],
+        const BetterPlayerConfiguration(
+            aspectRatio: 16 / 9,
+            fit: BoxFit.contain,
+            fullScreenByDefault: false,
+            deviceOrientationsAfterFullScreen: [
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown
+        ]);
+    BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
+        const BetterPlayerControlsConfiguration(
+      enableMute: false,
+      enableSkips: false,
+      controlBarColor: Colors.transparent,
     );
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
@@ -31,6 +35,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(_betterPlayerDataSource);
+    _betterPlayerController.setBetterPlayerControlsConfiguration(
+        betterPlayerControlsConfiguration);
     super.initState();
   }
 
