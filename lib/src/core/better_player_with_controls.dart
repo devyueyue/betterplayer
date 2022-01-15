@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
+
 import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controller_event.dart';
 import 'package:better_player/src/controls/better_player_cupertino_controls.dart';
@@ -164,13 +164,13 @@ class _BetterPlayerWithControlsState extends State<BetterPlayerWithControls> {
   ) {
     if (controlsConfiguration.showControls) {
       BetterPlayerTheme? playerTheme = controlsConfiguration.playerTheme;
-      if (playerTheme == null) {
-        if (Platform.isAndroid) {
-          playerTheme = BetterPlayerTheme.material;
-        } else {
-          playerTheme = BetterPlayerTheme.cupertino;
-        }
-      }
+      // if (playerTheme == null) {
+      //   if (Platform.isAndroid) {
+      //     playerTheme = BetterPlayerTheme.material;
+      //   } else {
+      playerTheme = BetterPlayerTheme.cupertino;
+      //   }
+      // }
 
       if (controlsConfiguration.customControlsBuilder != null &&
           playerTheme == BetterPlayerTheme.custom) {
