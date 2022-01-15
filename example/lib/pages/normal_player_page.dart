@@ -25,7 +25,6 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         ]);
     BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
         const BetterPlayerControlsConfiguration(
-      enableMute: false,
       enableSkips: false,
       controlBarColor: Colors.transparent,
     );
