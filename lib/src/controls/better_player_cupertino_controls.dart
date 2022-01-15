@@ -56,10 +56,91 @@ class _BetterPlayerCupertinoControlsState
   @override
   BetterPlayerControlsConfiguration get betterPlayerControlsConfiguration =>
       _controlsConfiguration;
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return buildLTRDirectionality(_buildMainWidget());
+    return Scaffold(
+        appBar: null,
+        key: _scaffoldKey,
+        backgroundColor: Colors.transparent,
+        drawer: _betterPlayerController!.isFullScreen ? _buildDrawer() : null,
+        body: buildLTRDirectionality(_buildMainWidget()));
+  }
+
+  /// 设置按钮样式
+  Widget _buildTextStytle(
+      {required int index, required String value, required String isSelect}) {
+    return InkWell(
+      onTap: () {
+        dataList.forEach((element) {
+          element['is_select'] = 'false';
+        });
+        dataList[index]['is_select'] = 'true';
+        setState(() {});
+      },
+      child: Container(
+        width: 152,
+        height: 45,
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            border: Border.all(
+              color:
+                  isSelect == 'true' ? Color(0xff3470DD) : Colors.transparent,
+            ),
+            color: isSelect == 'true'
+                ? Color(0xff9EC1FF)
+                : Colors.white.withOpacity(0.8)),
+        child: Text(
+          value,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+              color: isSelect == 'true' ? Color(0xff3470DD) : Colors.white),
+        ),
+      ),
+    );
+  }
+
+  List<Map<String, String>> dataList = [
+    {'title': '中文', 'is_select': 'false'},
+    {'title': '英文', 'is_select': 'true'},
+    {'title': '关闭字幕', 'is_select': 'false'},
+  ];
+
+  ///  全屏显示侧滑栏，  TODO  需要改为右侧弹出
+  Widget _buildDrawer() {
+    return SizedBox(
+      width: 250,
+      child: Drawer(
+        backgroundColor: Colors.transparent,
+        child: SafeArea(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.black54, Colors.black12],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: dataList
+                  .asMap()
+                  .keys
+                  .map((i) => _buildTextStytle(
+                      index: i,
+                      value: dataList[i]['title']!,
+                      isSelect: dataList[i]['is_select']!))
+                  .toList(),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   ///Builds main widget of the controls.
@@ -243,7 +324,9 @@ class _BetterPlayerCupertinoControlsState
                                         _controller!, iconColor, barHeight),
                                   Expanded(child: SizedBox()),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      _scaffoldKey.currentState?.openDrawer();
+                                    },
                                     child: Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 12),
