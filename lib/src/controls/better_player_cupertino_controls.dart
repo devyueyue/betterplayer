@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
 import 'package:better_player/src/controls/better_player_cupertino_progress_bar.dart';
@@ -177,6 +178,8 @@ class _BetterPlayerCupertinoControlsState
           borderRadius: BorderRadius.circular(10),
           child: Container(
             height: barHeight,
+            margin: EdgeInsets.only(
+                bottom: _betterPlayerController!.isFullScreen ? 16 : 0),
             decoration: BoxDecoration(
               color: backgroundColor,
             ),
@@ -193,32 +196,103 @@ class _BetterPlayerCupertinoControlsState
                       _buildLiveWidget(),
                     ],
                   )
-                : Row(
-                    children: <Widget>[
-                      if (_controlsConfiguration.enableSkips)
-                        _buildSkipBack(iconColor, barHeight)
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enablePlayPause)
-                        _buildPlayPause(_controller!, iconColor, barHeight)
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enableSkips)
-                        _buildSkipForward(iconColor, barHeight)
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enableProgressText)
-                        _buildPosition()
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enableProgressBar)
-                        _buildProgressBar()
-                      else
-                        const SizedBox(),
-                      if (_controlsConfiguration.enableProgressText)
-                        _buildRemaining()
-                      else
-                        const SizedBox()
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            if (_controlsConfiguration.enableSkips)
+                              _buildSkipBack(iconColor, barHeight)
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enablePlayPause &&
+                                !_betterPlayerController!.isFullScreen)
+                              _buildPlayPause(
+                                  _controller!, iconColor, barHeight)
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableSkips)
+                              _buildSkipForward(iconColor, barHeight)
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableProgressText)
+                              _buildPosition()
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableProgressBar)
+                              _buildProgressBar()
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableProgressText)
+                              _buildRemaining()
+                            else
+                              const SizedBox()
+                          ],
+                        ),
+                      ),
+                      (_controlsConfiguration.enablePlayPause &&
+                              _betterPlayerController!.isFullScreen)
+                          ? Container(
+                              height: 20,
+                              child: Row(
+                                children: [
+                                  if (_controlsConfiguration.enablePlayPause &&
+                                      _betterPlayerController!.isFullScreen)
+                                    _buildPlayPause(
+                                        _controller!, iconColor, barHeight),
+                                  Expanded(child: SizedBox()),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        '字幕',
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        '超清',
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        '倍速',
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        '目录',
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 13),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ))
+                          : SizedBox()
                     ],
                   ),
           ),
