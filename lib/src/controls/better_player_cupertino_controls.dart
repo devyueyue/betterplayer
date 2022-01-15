@@ -58,6 +58,32 @@ class _BetterPlayerCupertinoControlsState
       _controlsConfiguration;
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  List<Map<String, String>> dataList = [
+    {'title': '中文', 'is_select': 'false', 'type': 'font'},
+    {'title': '英文', 'is_select': 'true', 'type': 'font'},
+    {'title': '关闭字幕', 'is_select': 'false', 'type': 'font'},
+  ];
+
+  List<Map<String, String>> fontList = [
+    {'title': '中文', 'is_select': 'false', 'type': 'font'},
+    {'title': '英文', 'is_select': 'true', 'type': 'font'},
+    {'title': '关闭字幕', 'is_select': 'false', 'type': 'font'},
+  ];
+
+  List<Map<String, String>> speedList = [
+    {'title': '1.25X', 'is_select': 'false', 'type': 'speed'},
+    {'title': '1.0X', 'is_select': 'true', 'type': 'speed'},
+    {'title': '0.75X', 'is_select': 'false', 'type': 'speed'},
+  ];
+
+  List<Map<String, String>> qualityList = [
+    {'title': '蓝光 1080p', 'is_select': 'false', 'type': 'quality'},
+    {'title': '超清 720p', 'is_select': 'true', 'type': 'quality'},
+    {'title': '高清 480p', 'is_select': 'false', 'type': 'quality'},
+  ];
+
+  String qualityValue = '超清';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,13 +96,45 @@ class _BetterPlayerCupertinoControlsState
 
   /// 设置按钮样式
   Widget _buildTextStytle(
-      {required int index, required String value, required String isSelect}) {
+      {required int index,
+      required String value,
+      required String isSelect,
+      required String type}) {
     return InkWell(
       onTap: () {
         dataList.forEach((element) {
           element['is_select'] = 'false';
         });
         dataList[index]['is_select'] = 'true';
+        switch (type) {
+
+          ///  字幕设置
+          case 'font':
+            break;
+
+          ///  倍速设置
+          case 'speed':
+            double speedValue = 1.0;
+            try {
+              String subString = value.replaceAll('X', '');
+
+              speedValue = double.parse(subString);
+            } catch (e) {
+              print('--log----倍速这只异常=e=${e}');
+            }
+            betterPlayerController!.setSpeed(speedValue);
+            break;
+
+          /// 分辨率设置
+          case 'quality':
+            List<String> splitList = value.split(' ');
+            qualityValue = speedList.isEmpty ? '' : splitList[0];
+            print('-------选择的分辨率---${qualityValue}');
+            setState(() {});
+            break;
+          default:
+            break;
+        }
         setState(() {});
       },
       child: Container(
@@ -105,12 +163,6 @@ class _BetterPlayerCupertinoControlsState
     );
   }
 
-  List<Map<String, String>> dataList = [
-    {'title': '中文', 'is_select': 'false'},
-    {'title': '英文', 'is_select': 'true'},
-    {'title': '关闭字幕', 'is_select': 'false'},
-  ];
-
   ///  全屏显示侧滑栏，  TODO  需要改为右侧弹出
   Widget _buildDrawer() {
     return SizedBox(
@@ -131,10 +183,13 @@ class _BetterPlayerCupertinoControlsState
               children: dataList
                   .asMap()
                   .keys
-                  .map((i) => _buildTextStytle(
-                      index: i,
-                      value: dataList[i]['title']!,
-                      isSelect: dataList[i]['is_select']!))
+                  .map(
+                    (i) => _buildTextStytle(
+                        index: i,
+                        value: dataList[i]['title']!,
+                        isSelect: dataList[i]['is_select']!,
+                        type: dataList[i]['type']!),
+                  )
                   .toList(),
             ),
           ),
@@ -325,6 +380,8 @@ class _BetterPlayerCupertinoControlsState
                                   Expanded(child: SizedBox()),
                                   InkWell(
                                     onTap: () {
+                                      dataList = fontList;
+                                      setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
                                     child: Padding(
@@ -333,46 +390,54 @@ class _BetterPlayerCupertinoControlsState
                                       child: Text(
                                         '字幕',
                                         style: TextStyle(
-                                            color: Colors.red, fontSize: 13),
+                                            color: Colors.white, fontSize: 13),
                                       ),
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      dataList = qualityList;
+                                      setState(() {});
+                                      _scaffoldKey.currentState?.openDrawer();
+                                    },
                                     child: Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 12),
                                       child: Text(
-                                        '超清',
+                                        qualityValue,
                                         style: TextStyle(
-                                            color: Colors.red, fontSize: 13),
+                                            color: Colors.white, fontSize: 13),
                                       ),
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      dataList = speedList;
+                                      setState(() {});
+                                      _scaffoldKey.currentState?.openDrawer();
+                                    },
                                     child: Padding(
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 12),
                                       child: Text(
                                         '倍速',
                                         style: TextStyle(
-                                            color: Colors.red, fontSize: 13),
+                                            color: Colors.white, fontSize: 13),
                                       ),
                                     ),
                                   ),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      child: Text(
-                                        '目录',
-                                        style: TextStyle(
-                                            color: Colors.red, fontSize: 13),
-                                      ),
-                                    ),
-                                  ),
+                                  // InkWell(
+                                  //   onTap: () {},
+                                  //   child: Padding(
+                                  //     padding:
+                                  //         EdgeInsets.symmetric(horizontal: 12),
+                                  //     child: Text(
+                                  //       '目录',
+                                  //       style: TextStyle(
+                                  //           color: Colors.red, fontSize: 13),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ))
                           : SizedBox()
@@ -584,7 +649,7 @@ class _BetterPlayerCupertinoControlsState
     return Padding(
       padding: const EdgeInsets.only(right: 12.0),
       child: Text(
-        '-${BetterPlayerUtils.formatDuration(position)}',
+        '${BetterPlayerUtils.formatDuration(position)}',
         style:
             TextStyle(color: _controlsConfiguration.textColor, fontSize: 12.0),
       ),

@@ -1,5 +1,4 @@
 import 'package:better_player/better_player.dart';
-import 'package:better_player_example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -30,7 +29,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     );
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      Constants.forBiggerBlazesUrl,
+      // Constants.forBiggerBlazesUrl,   设置Url hhy
+      'http://cdn.theoplayer.com/video/elephants-dream/playlist.m3u8',
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setupDataSource(_betterPlayerDataSource);
