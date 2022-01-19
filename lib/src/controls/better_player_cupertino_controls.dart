@@ -110,6 +110,7 @@ class _BetterPlayerCupertinoControlsState
 
           ///  字幕设置
           case 'font':
+            betterPlayerController!.setupSubtitleSource(subtitlesSource);
             break;
 
           ///  倍速设置
@@ -381,6 +382,9 @@ class _BetterPlayerCupertinoControlsState
                                   InkWell(
                                     onTap: () {
                                       dataList = fontList;
+                                      final selectedSourceType =
+                                          betterPlayerController!
+                                              .betterPlayerSubtitlesSource;
                                       setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
