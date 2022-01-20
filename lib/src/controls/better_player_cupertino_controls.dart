@@ -147,6 +147,7 @@ class _BetterPlayerCupertinoControlsState
             List<String> splitList = value.split(' ');
             qualityValue = speedList.isEmpty ? '' : splitList[0];
             betterPlayerController!.setResolution(url);
+            betterPlayerController!.play();
             print('-------选择的分辨率---${qualityValue}-----url=${url}');
             break;
           default:
@@ -443,9 +444,16 @@ class _BetterPlayerCupertinoControlsState
                                       }
                                       if (qualityList.isEmpty) {
                                         resolutionMap.forEach((key, value) {
+                                          bool isSelect =
+                                              (betterPlayerController!
+                                                          .betterPlayerDataSource
+                                                          ?.url ??
+                                                      '') ==
+                                                  value;
                                           qualityList.add({
                                             'title': key,
-                                            'is_select': 'false',
+                                            'is_select':
+                                                isSelect ? 'true' : 'false',
                                             'type': 'quality',
                                             'url': value
                                           });
