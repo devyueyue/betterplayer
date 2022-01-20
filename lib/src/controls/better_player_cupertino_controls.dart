@@ -70,11 +70,7 @@ class _BetterPlayerCupertinoControlsState
     {'title': '0.75X', 'is_select': 'false', 'type': 'speed'},
   ];
 
-  List<Map<String, String>> qualityList = [
-    {'title': '蓝光 1080p', 'is_select': 'false', 'type': 'quality'},
-    {'title': '超清 720p', 'is_select': 'true', 'type': 'quality'},
-    {'title': '高清 480p', 'is_select': 'false', 'type': 'quality'},
-  ];
+  List<Map<String, String>> qualityList = [];
 
   String qualityValue = '超清';
 
@@ -399,8 +395,9 @@ class _BetterPlayerCupertinoControlsState
                                     onTap: () {
                                       subtitleList = betterPlayerController!
                                           .betterPlayerSubtitlesSourceList;
-                                      print(
-                                          '----hhhy====${subtitleList.first.name}');
+                                      if (subtitleList.isEmpty) {
+                                        return;
+                                      }
                                       if (fontList.isEmpty) {
                                         for (int i = 0;
                                             i < subtitleList.length;
@@ -418,11 +415,6 @@ class _BetterPlayerCupertinoControlsState
                                         }
                                       }
                                       dataList = fontList;
-
-                                      if (subtitleList.isEmpty) {
-                                        return;
-                                      }
-                                      // setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
                                     child: Padding(
@@ -438,7 +430,6 @@ class _BetterPlayerCupertinoControlsState
                                   InkWell(
                                     onTap: () {
                                       dataList = qualityList;
-
                                       resolutionMap = betterPlayerController!
                                               .betterPlayerDataSource!
                                               .resolutions ??
@@ -447,7 +438,6 @@ class _BetterPlayerCupertinoControlsState
                                         return;
                                       }
 
-                                      setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
                                     child: Padding(

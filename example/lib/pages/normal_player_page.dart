@@ -31,7 +31,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642645803-bd1ff2cc1b3d4f5387ed668e2206b29c-0-baaf58f9b776b37990e1ae61b5417fc3&MtsHlsUriToken=1642649403_00_af90cdd8b2edac4a1cd0',
+      'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642654211-8bce2cb186a94a9baec51d0a7c1409a2-0-bf120870b522b14cef99ff516d195180&MtsHlsUriToken=1642657811_00_b50fa9572cdf918aba1a',
       liveStream: false,
       useAsmsSubtitles: true,
       resolutions: {
