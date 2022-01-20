@@ -7,6 +7,8 @@ import 'package:better_player/src/controls/better_player_multiple_gesture_detect
 import 'package:better_player/src/controls/better_player_progress_colors.dart';
 import 'package:better_player/src/core/better_player_controller.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_source.dart';
+import 'package:better_player/src/subtitles/better_player_subtitles_source_type.dart';
 import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,17 +60,9 @@ class _BetterPlayerCupertinoControlsState
       _controlsConfiguration;
   var _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<Map<String, String>> dataList = [
-    {'title': '中文', 'is_select': 'false', 'type': 'font'},
-    {'title': '英文', 'is_select': 'true', 'type': 'font'},
-    {'title': '关闭字幕', 'is_select': 'false', 'type': 'font'},
-  ];
+  List<Map<String, String>> dataList = [];
 
-  List<Map<String, String>> fontList = [
-    {'title': '中文', 'is_select': 'false', 'type': 'font'},
-    {'title': '英文', 'is_select': 'true', 'type': 'font'},
-    {'title': '关闭字幕', 'is_select': 'false', 'type': 'font'},
-  ];
+  List<Map<String, String>> fontList = [];
 
   List<Map<String, String>> speedList = [
     {'title': '1.25X', 'is_select': 'false', 'type': 'speed'},
@@ -83,6 +77,21 @@ class _BetterPlayerCupertinoControlsState
   ];
 
   String qualityValue = '超清';
+
+  late List<BetterPlayerSubtitlesSource> subtitleList;
+
+  late Map<String, String> resolutionMap;
+
+  ///  设置字幕
+  // betterPlayerController!.setupSubtitleSource(subtitlesSource);
+
+  /// 设置分辨率
+  // betterPlayerController!.setResolution(url);
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +119,14 @@ class _BetterPlayerCupertinoControlsState
 
           ///  字幕设置
           case 'font':
-            betterPlayerController!.setupSubtitleSource(subtitlesSource);
+            if (index > subtitleList.length) {
+              betterPlayerController!.setupSubtitleSource(
+                  BetterPlayerSubtitlesSource(
+                      type: BetterPlayerSubtitlesSourceType.none));
+            } else {
+              betterPlayerController!.setupSubtitleSource(subtitleList[index]);
+            }
+
             break;
 
           ///  倍速设置
@@ -381,11 +397,32 @@ class _BetterPlayerCupertinoControlsState
                                   Expanded(child: SizedBox()),
                                   InkWell(
                                     onTap: () {
+                                      subtitleList = betterPlayerController!
+                                          .betterPlayerSubtitlesSourceList;
+                                      print(
+                                          '----hhhy====${subtitleList.first.name}');
+                                      if (fontList.isEmpty) {
+                                        for (int i = 0;
+                                            i < subtitleList.length;
+                                            i++) {
+                                          BetterPlayerSubtitlesSource
+                                              betterItem = subtitleList[i];
+                                          fontList.add({
+                                            'title':
+                                                (i == subtitleList.length - 1)
+                                                    ? '关闭字幕'
+                                                    : betterItem.name ?? '',
+                                            'is_select': 'false',
+                                            'type': 'font'
+                                          });
+                                        }
+                                      }
                                       dataList = fontList;
-                                      final selectedSourceType =
-                                          betterPlayerController!
-                                              .betterPlayerSubtitlesSource;
-                                      setState(() {});
+
+                                      if (subtitleList.isEmpty) {
+                                        return;
+                                      }
+                                      // setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
                                     child: Padding(
@@ -401,6 +438,15 @@ class _BetterPlayerCupertinoControlsState
                                   InkWell(
                                     onTap: () {
                                       dataList = qualityList;
+
+                                      resolutionMap = betterPlayerController!
+                                              .betterPlayerDataSource!
+                                              .resolutions ??
+                                          {};
+                                      if (resolutionMap.isEmpty) {
+                                        return;
+                                      }
+
                                       setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
                                     },

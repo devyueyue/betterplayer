@@ -28,24 +28,20 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       enableSkips: false,
       controlBarColor: Colors.transparent,
     );
-    _betterPlayerDataSource = BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        // Constants.forBiggerBlazesUrl,   设置Url hhy
-        "https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642576029-7c3b1e2622394d95bb88fc59e9acf3cc-0-2d2bcb99b36d8518d76d88bc46584ec8&MtsHlsUriToken=1642579629_00_246c4622e72bbae70c37");
 
-    dataSource = BetterPlayerDataSource(
+    _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      "https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642574714-10fdae40dec94b1fa16d88e3c098c005-0-287d5ef85bd1589a3bbcd7f7e7ec12c2&MtsHlsUriToken=1642578314_00_bff1a80f9f8f857aeced",
+      'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642645803-bd1ff2cc1b3d4f5387ed668e2206b29c-0-baaf58f9b776b37990e1ae61b5417fc3&MtsHlsUriToken=1642649403_00_af90cdd8b2edac4a1cd0',
       liveStream: false,
       useAsmsSubtitles: true,
-      // resolutions: {
-      //   "MEDIUM":
-      //       "https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642574714-10fdae40dec94b1fa16d88e3c098c005-0-287d5ef85bd1589a3bbcd7f7e7ec12c2&MtsHlsUriToken=1642578314_00_bff1a80f9f8f857aeced",
-      //   "LARGE":
-      //       "https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642574714-10fdae40dec94b1fa16d88e3c098c005-0-287d5ef85bd1589a3bbcd7f7e7ec12c2&MtsHlsUriToken=1642578314_00_bff1a80f9f8f857aeced",
-      //   "EXTRA_LARGE":
-      //       "https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642574714-10fdae40dec94b1fa16d88e3c098c005-0-287d5ef85bd1589a3bbcd7f7e7ec12c2&MtsHlsUriToken=1642578314_00_bff1a80f9f8f857aeced",
-      // },
+      resolutions: {
+        "标清":
+            'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642595465-15bd7de5854249b2b028c34184a24f0d-0-92658a36e49c43649ca245a5addd4754&MtsHlsUriToken=1642599065_00_241247ff484f71a8a4d4',
+        "高清":
+            'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-2a9d8275702d9194878b7a4bf1dbfad6-video-sd-encrypt-stream.m3u8?auth_key=1642595465-9493b9e7dfb347e18533d7900c7c98ba-0-25c4830d15529c7f75b7fdbad89603f3&MtsHlsUriToken=1642599065_00_241247ff484f71a8a4d4',
+        "超清":
+            'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-ac001f3a81aa49068b6fee3c8bc0c655-video-hd-encrypt-stream.m3u8?auth_key=1642595465-7f0bfa66312845fa9f3645d590dcd531-0-a28c489c4c938d8789198befa5973c7d&MtsHlsUriToken=1642599065_00_241247ff484f71a8a4d4'
+      },
       subtitles: [
         BetterPlayerSubtitlesSource(
           type: BetterPlayerSubtitlesSourceType.network,
