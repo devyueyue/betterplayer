@@ -104,7 +104,8 @@ class _BetterPlayerCupertinoControlsState
       {required int index,
       required String value,
       required String isSelect,
-      required String type}) {
+      required String type,
+      required String url}) {
     return InkWell(
       onTap: () {
         dataList.forEach((element) {
@@ -115,6 +116,7 @@ class _BetterPlayerCupertinoControlsState
 
           ///  字幕设置
           case 'font':
+            fontList = dataList;
             if (index > subtitleList.length) {
               betterPlayerController!.setupSubtitleSource(
                   BetterPlayerSubtitlesSource(
@@ -127,6 +129,7 @@ class _BetterPlayerCupertinoControlsState
 
           ///  倍速设置
           case 'speed':
+            speedList = dataList;
             double speedValue = 1.0;
             try {
               String subString = value.replaceAll('X', '');
@@ -140,10 +143,11 @@ class _BetterPlayerCupertinoControlsState
 
           /// 分辨率设置
           case 'quality':
+            qualityList = dataList;
             List<String> splitList = value.split(' ');
             qualityValue = speedList.isEmpty ? '' : splitList[0];
-            print('-------选择的分辨率---${qualityValue}');
-            setState(() {});
+            betterPlayerController!.setResolution(url);
+            print('-------选择的分辨率---${qualityValue}-----url=${url}');
             break;
           default:
             break;
@@ -201,7 +205,8 @@ class _BetterPlayerCupertinoControlsState
                         index: i,
                         value: dataList[i]['title']!,
                         isSelect: dataList[i]['is_select']!,
-                        type: dataList[i]['type']!),
+                        type: dataList[i]['type']!,
+                        url: dataList[i]['url'] ?? ''),
                   )
                   .toList(),
             ),
@@ -429,7 +434,6 @@ class _BetterPlayerCupertinoControlsState
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      dataList = qualityList;
                                       resolutionMap = betterPlayerController!
                                               .betterPlayerDataSource!
                                               .resolutions ??
@@ -437,7 +441,17 @@ class _BetterPlayerCupertinoControlsState
                                       if (resolutionMap.isEmpty) {
                                         return;
                                       }
-
+                                      if (qualityList.isEmpty) {
+                                        resolutionMap.forEach((key, value) {
+                                          qualityList.add({
+                                            'title': key,
+                                            'is_select': 'false',
+                                            'type': 'quality',
+                                            'url': value
+                                          });
+                                        });
+                                      }
+                                      dataList = qualityList;
                                       _scaffoldKey.currentState?.openDrawer();
                                     },
                                     child: Padding(
