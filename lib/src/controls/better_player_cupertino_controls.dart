@@ -322,6 +322,8 @@ class _BetterPlayerCupertinoControlsState
     if (!betterPlayerController!.controlsEnabled) {
       return const SizedBox();
     }
+    final barHeightValue = barHeight * 0.8;
+    final iconSize = barHeight * 0.4;
     return AnimatedOpacity(
       opacity: controlsNotVisible ? 0.0 : 1.0,
       duration: _controlsConfiguration.controlsHideTime,
@@ -382,7 +384,18 @@ class _BetterPlayerCupertinoControlsState
                             if (_controlsConfiguration.enableProgressText)
                               _buildRemaining()
                             else
-                              const SizedBox()
+                              const SizedBox(),
+                            if (!(_betterPlayerController?.isFullScreen ??
+                                false))
+                              _buildExpandButton(
+                                backgroundColor,
+                                iconColor,
+                                barHeightValue,
+                                iconSize,
+                                10,
+                              )
+                            else
+                              const SizedBox(),
                           ],
                         ),
                       ),
@@ -774,7 +787,7 @@ class _BetterPlayerCupertinoControlsState
       ),
       child: Row(
         children: <Widget>[
-          if (_controlsConfiguration.enableFullscreen)
+          if (_betterPlayerController?.isFullScreen ?? false)
             _buildExpandButton(
               backgroundColor,
               iconColor,

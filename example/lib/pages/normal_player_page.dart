@@ -24,14 +24,17 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           DeviceOrientation.portraitDown
         ]);
     BetterPlayerControlsConfiguration betterPlayerControlsConfiguration =
-        const BetterPlayerControlsConfiguration(
-      enableSkips: false,
-      controlBarColor: Colors.transparent,
-    );
+        BetterPlayerControlsConfiguration(
+            enableSkips: false,
+            controlBarColor: Colors.transparent,
+            progressBarBackgroundColor: Colors.white.withOpacity(0.18),
+            progressBarBufferedColor: Colors.white.withOpacity(0.18),
+            progressBarHandleColor: Colors.white.withOpacity(0.99),
+            progressBarPlayedColor: Color(0xff3470DD));
 
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1642655231-d685e5ad7a734f54ae1f8eef19fe02a7-0-ab50794e53bd7a64852bf2c250d24e49&MtsHlsUriToken=1642658831_00_a6a552bc4a9c02dbd813',
+      'https://alivc-demo-vod.aliyuncs.com/6b357371ef3c45f4a06e2536fd534380/53733986bce75cfc367d7554a47638c0-fd.mp4',
       liveStream: false,
       useAsmsSubtitles: true,
       resolutions: {
