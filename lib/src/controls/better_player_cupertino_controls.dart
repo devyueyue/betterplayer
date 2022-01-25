@@ -177,8 +177,8 @@ class _BetterPlayerCupertinoControlsState
                   isSelect == 'true' ? Color(0xff3470DD) : Colors.transparent,
             ),
             color: isSelect == 'true'
-                ? Color(0xff9EC1FF).withOpacity(0.2)
-                : Colors.white.withOpacity(0.3)),
+                ? Color(0xff9EC1FF).withOpacity(0.1)
+                : Colors.white.withOpacity(0.2)),
         child: Text(
           value,
           textAlign: TextAlign.center,
