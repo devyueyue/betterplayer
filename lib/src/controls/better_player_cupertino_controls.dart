@@ -151,7 +151,7 @@ class _BetterPlayerCupertinoControlsState
             List<String> splitList = value.split(' ');
             qualityValue = speedList.isEmpty ? '' : splitList[0];
             betterPlayerController!.setResolution(url);
-            Future.delayed(Duration(milliseconds: 2000), () {
+            Future.delayed(Duration(milliseconds: 6000), () {
               if (fontSelectIndex != -1) {
                 betterPlayerController!
                     .setupSubtitleSource(subtitleList[index]);
