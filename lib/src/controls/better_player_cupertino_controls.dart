@@ -415,7 +415,8 @@ class _BetterPlayerCupertinoControlsState
                                       ///字幕点击事件
                                       subtitleList = betterPlayerController!
                                           .betterPlayerSubtitlesSourceList;
-                                      if (subtitleList.isEmpty) {
+                                      if (subtitleList.isEmpty ||
+                                          subtitleList.length == 1) {
                                         return;
                                       }
                                       if (fontList.isEmpty) {
@@ -429,7 +430,10 @@ class _BetterPlayerCupertinoControlsState
                                                 (i == subtitleList.length - 1)
                                                     ? '关闭字幕'
                                                     : betterItem.name ?? '',
-                                            'is_select': 'false',
+                                            'is_select':
+                                                (i == subtitleList.length - 1)
+                                                    ? 'true'
+                                                    : 'false',
                                             'type': 'font'
                                           });
                                         }
