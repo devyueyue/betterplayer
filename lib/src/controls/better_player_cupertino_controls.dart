@@ -710,7 +710,7 @@ class _BetterPlayerCupertinoControlsState
         child: Icon(
           controller.value.isPlaying
               ? _controlsConfiguration.pauseIcon
-              : _controlsConfiguration.playIcon,
+              : Icons.play_arrow,
           color: iconColor,
           size: barHeight * 0.6,
         ),
