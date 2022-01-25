@@ -121,6 +121,7 @@ class _BetterPlayerCupertinoControlsState
           ///  字幕设置
           case 'font':
             fontList = dataList;
+            fontSelectIndex = index;
             if (index > subtitleList.length) {
               betterPlayerController!.setupSubtitleSource(
                   BetterPlayerSubtitlesSource(
@@ -151,8 +152,12 @@ class _BetterPlayerCupertinoControlsState
             List<String> splitList = value.split(' ');
             qualityValue = speedList.isEmpty ? '' : splitList[0];
             betterPlayerController!.setResolution(url);
-            fontList[fontSelectIndex]['is_select'] = 'false';
-            fontList.last['is_select'] = 'true';
+            Future.delayed(Duration(milliseconds: 8000), () {
+              if (fontSelectIndex != -1) {
+                betterPlayerController!
+                    .setupSubtitleSource(subtitleList[fontSelectIndex]);
+              }
+            });
 
             print('-------选择的分辨率---${qualityValue}-----url=${url}');
             break;
