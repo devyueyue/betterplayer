@@ -28,6 +28,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
         BetterPlayerControlsConfiguration(
             enableSkips: false,
             controlBarColor: Colors.transparent,
+            enableOverflowMenu: false,
+            enableMute: false,
             progressBarBackgroundColor: Colors.white.withOpacity(0.18),
             progressBarBufferedColor: Colors.white.withOpacity(0.18),
             progressBarHandleColor: Colors.white.withOpacity(0.99),
