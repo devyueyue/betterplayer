@@ -80,6 +80,7 @@ class _BetterPlayerCupertinoControlsState
 
   final courseButtonController = StreamController<bool>();
   Stream<bool> get courseStream => courseButtonController.stream;
+  int fontSelectIndex = -1;
 
   ///  设置字幕
   // betterPlayerController!.setupSubtitleSource(subtitlesSource);
@@ -150,7 +151,13 @@ class _BetterPlayerCupertinoControlsState
             List<String> splitList = value.split(' ');
             qualityValue = speedList.isEmpty ? '' : splitList[0];
             betterPlayerController!.setResolution(url);
-            betterPlayerController!.play();
+            Future.delayed(Duration(milliseconds: 2000), () {
+              if (fontSelectIndex != -1) {
+                betterPlayerController!
+                    .setupSubtitleSource(subtitleList[index]);
+              }
+            });
+
             print('-------选择的分辨率---${qualityValue}-----url=${url}');
             break;
           default:
