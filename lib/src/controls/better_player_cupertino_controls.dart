@@ -72,7 +72,7 @@ class _BetterPlayerCupertinoControlsState
 
   List<Map<String, String>> qualityList = [];
 
-  String qualityValue = '超清';
+  String qualityValue = '标清';
 
   late List<BetterPlayerSubtitlesSource> subtitleList;
 
