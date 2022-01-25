@@ -177,8 +177,8 @@ class _BetterPlayerCupertinoControlsState
                   isSelect == 'true' ? Color(0xff3470DD) : Colors.transparent,
             ),
             color: isSelect == 'true'
-                ? Color(0xff9EC1FF)
-                : Colors.white.withOpacity(0.8)),
+                ? Color(0xff9EC1FF).withOpacity(0.2)
+                : Colors.white.withOpacity(0.3)),
         child: Text(
           value,
           textAlign: TextAlign.center,
@@ -576,7 +576,7 @@ class _BetterPlayerCupertinoControlsState
             child: Center(
               child: Icon(
                 _betterPlayerController!.isFullScreen
-                    ? _controlsConfiguration.fullscreenDisableIcon
+                    ? Icons.arrow_back_ios
                     : _controlsConfiguration.fullscreenEnableIcon,
                 color: iconColor,
                 size: iconSize,
