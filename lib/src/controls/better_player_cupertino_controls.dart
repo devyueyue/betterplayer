@@ -412,6 +412,7 @@ class _BetterPlayerCupertinoControlsState
                                   Expanded(child: SizedBox()),
                                   InkWell(
                                     onTap: () {
+                                      ///字幕点击事件
                                       subtitleList = betterPlayerController!
                                           .betterPlayerSubtitlesSourceList;
                                       if (subtitleList.isEmpty) {
@@ -448,6 +449,7 @@ class _BetterPlayerCupertinoControlsState
                                   ),
                                   InkWell(
                                     onTap: () {
+                                      ///清晰度点击事件
                                       resolutionMap = betterPlayerController!
                                               .betterPlayerDataSource!
                                               .resolutions ??
@@ -487,6 +489,7 @@ class _BetterPlayerCupertinoControlsState
                                   ),
                                   InkWell(
                                     onTap: () {
+                                      /// 倍速点击事件
                                       dataList = speedList;
                                       setState(() {});
                                       _scaffoldKey.currentState?.openDrawer();
