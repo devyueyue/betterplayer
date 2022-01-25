@@ -421,87 +421,108 @@ class _BetterPlayerCupertinoControlsState
                                     _buildPlayPause(
                                         _controller!, iconColor, barHeight),
                                   Expanded(child: SizedBox()),
-                                  InkWell(
-                                    onTap: () {
-                                      ///字幕点击事件
-                                      subtitleList = betterPlayerController!
-                                          .betterPlayerSubtitlesSourceList;
-                                      if (subtitleList.isEmpty ||
-                                          subtitleList.length == 1) {
-                                        return;
-                                      }
-                                      if (fontList.isEmpty) {
-                                        for (int i = 0;
-                                            i < subtitleList.length;
-                                            i++) {
-                                          BetterPlayerSubtitlesSource
-                                              betterItem = subtitleList[i];
-                                          fontList.add({
-                                            'title':
-                                                (i == subtitleList.length - 1)
-                                                    ? '关闭字幕'
-                                                    : betterItem.name ?? '',
-                                            'is_select':
-                                                (i == subtitleList.length - 1)
-                                                    ? 'true'
-                                                    : 'false',
-                                            'type': 'font'
-                                          });
-                                        }
-                                      }
-                                      dataList = fontList;
-                                      _scaffoldKey.currentState?.openDrawer();
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      child: Text(
-                                        '字幕',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 13),
-                                      ),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      ///清晰度点击事件
-                                      resolutionMap = betterPlayerController!
-                                              .betterPlayerDataSource!
-                                              .resolutions ??
-                                          {};
-                                      if (resolutionMap.isEmpty) {
-                                        return;
-                                      }
-                                      if (qualityList.isEmpty) {
-                                        resolutionMap.forEach((key, value) {
-                                          bool isSelect =
-                                              (betterPlayerController!
-                                                          .betterPlayerDataSource
-                                                          ?.url ??
-                                                      '') ==
-                                                  value;
-                                          qualityList.add({
-                                            'title': key,
-                                            'is_select':
-                                                isSelect ? 'true' : 'false',
-                                            'type': 'quality',
-                                            'url': value
-                                          });
-                                        });
-                                      }
-                                      dataList = qualityList;
-                                      _scaffoldKey.currentState?.openDrawer();
-                                    },
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 12),
-                                      child: Text(
-                                        qualityValue,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 13),
-                                      ),
-                                    ),
-                                  ),
+                                  betterPlayerController!
+                                              .betterPlayerSubtitlesSourceList
+                                              .length <
+                                          2
+                                      ? SizedBox()
+                                      : InkWell(
+                                          onTap: () {
+                                            ///字幕点击事件
+                                            subtitleList = betterPlayerController!
+                                                .betterPlayerSubtitlesSourceList;
+                                            if (subtitleList.isEmpty ||
+                                                subtitleList.length == 1) {
+                                              return;
+                                            }
+                                            if (fontList.isEmpty) {
+                                              for (int i = 0;
+                                                  i < subtitleList.length;
+                                                  i++) {
+                                                BetterPlayerSubtitlesSource
+                                                    betterItem =
+                                                    subtitleList[i];
+                                                fontList.add({
+                                                  'title': (i ==
+                                                          subtitleList.length -
+                                                              1)
+                                                      ? '关闭字幕'
+                                                      : betterItem.name ?? '',
+                                                  'is_select': (i ==
+                                                          subtitleList.length -
+                                                              1)
+                                                      ? 'true'
+                                                      : 'false',
+                                                  'type': 'font'
+                                                });
+                                              }
+                                            }
+                                            dataList = fontList;
+                                            _scaffoldKey.currentState
+                                                ?.openDrawer();
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12),
+                                            child: Text(
+                                              '字幕',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13),
+                                            ),
+                                          ),
+                                        ),
+                                  (betterPlayerController!
+                                                  .betterPlayerDataSource!
+                                                  .resolutions ??
+                                              {})
+                                          .isEmpty
+                                      ? SizedBox()
+                                      : InkWell(
+                                          onTap: () {
+                                            ///清晰度点击事件
+                                            resolutionMap =
+                                                betterPlayerController!
+                                                        .betterPlayerDataSource!
+                                                        .resolutions ??
+                                                    {};
+                                            if (resolutionMap.isEmpty) {
+                                              return;
+                                            }
+                                            if (qualityList.isEmpty) {
+                                              resolutionMap
+                                                  .forEach((key, value) {
+                                                bool isSelect =
+                                                    (betterPlayerController!
+                                                                .betterPlayerDataSource
+                                                                ?.url ??
+                                                            '') ==
+                                                        value;
+                                                qualityList.add({
+                                                  'title': key,
+                                                  'is_select': isSelect
+                                                      ? 'true'
+                                                      : 'false',
+                                                  'type': 'quality',
+                                                  'url': value
+                                                });
+                                              });
+                                            }
+                                            dataList = qualityList;
+                                            _scaffoldKey.currentState
+                                                ?.openDrawer();
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12),
+                                            child: Text(
+                                              qualityValue,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13),
+                                            ),
+                                          ),
+                                        ),
                                   InkWell(
                                     onTap: () {
                                       /// 倍速点击事件

@@ -37,7 +37,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      Constants.elephantDreamStreamUrl,
+      Constants.elephantDreamVideoUrl,
       liveStream: false,
       useAsmsSubtitles: true,
       // resolutions: {
