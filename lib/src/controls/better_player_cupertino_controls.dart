@@ -154,7 +154,7 @@ class _BetterPlayerCupertinoControlsState
             Future.delayed(Duration(milliseconds: 6000), () {
               if (fontSelectIndex != -1) {
                 betterPlayerController!
-                    .setupSubtitleSource(subtitleList[index]);
+                    .setupSubtitleSource(subtitleList[fontSelectIndex]);
               }
             });
 
