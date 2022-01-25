@@ -78,6 +78,9 @@ class _BetterPlayerCupertinoControlsState
 
   late Map<String, String> resolutionMap;
 
+  final courseButtonController = StreamController<bool>();
+  Stream<bool> get courseStream => courseButtonController.stream;
+
   ///  设置字幕
   // betterPlayerController!.setupSubtitleSource(subtitlesSource);
 
@@ -298,6 +301,7 @@ class _BetterPlayerCupertinoControlsState
     _expandCollapseTimer?.cancel();
     _initTimer?.cancel();
     _controlsVisibilityStreamSubscription?.cancel();
+    courseButtonController.close();
   }
 
   @override
