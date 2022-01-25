@@ -149,10 +149,9 @@ class _BetterPlayerCupertinoControlsState
           /// 分辨率设置
           case 'quality':
             qualityList = dataList;
-            List<String> splitList = value.split(' ');
-            qualityValue = speedList.isEmpty ? '' : splitList[0];
+            qualityValue = value;
             betterPlayerController!.setResolution(url);
-            Future.delayed(Duration(milliseconds: 8000), () {
+            Future.delayed(Duration(milliseconds: 5000), () {
               if (fontSelectIndex != -1) {
                 betterPlayerController!
                     .setupSubtitleSource(subtitleList[fontSelectIndex]);
