@@ -341,17 +341,13 @@ class _BetterPlayerCupertinoControlsState
       onEnd: _onPlayerHide,
       child: Container(
         alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.fromLTRB(
-            _betterPlayerController!.isFullScreen ? 66 : 0,
-            8,
-            _betterPlayerController!.isFullScreen ? 66 : 0,
-            0),
+        margin: EdgeInsets.only(top: 10),
         child: Container(
           height: barHeight,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
             Color(0xff000000).withOpacity(0.6),
-            Color(0xff000000).withOpacity(0.0)
+            Color(0xff000000).withOpacity(0)
           ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
           child: _betterPlayerController!.isLiveStream()
               ? Row(
@@ -367,8 +363,11 @@ class _BetterPlayerCupertinoControlsState
                   ],
                 )
               : Padding(
-                  padding: EdgeInsets.only(
-                      bottom: _betterPlayerController!.isFullScreen
+                  padding: EdgeInsets.fromLTRB(
+                      _betterPlayerController!.isFullScreen ? 70 : 0,
+                      0,
+                      _betterPlayerController!.isFullScreen ? 66 : 0,
+                      _betterPlayerController!.isFullScreen
                           ? marginSize + 18
                           : 0),
                   child: Column(
