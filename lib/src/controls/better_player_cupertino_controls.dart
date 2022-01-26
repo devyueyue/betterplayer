@@ -341,7 +341,11 @@ class _BetterPlayerCupertinoControlsState
       onEnd: _onPlayerHide,
       child: Container(
         alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(top: marginSize),
+        margin: EdgeInsets.fromLTRB(
+            _betterPlayerController!.isFullScreen ? 66 : 0,
+            8,
+            _betterPlayerController!.isFullScreen ? 66 : 0,
+            0),
         child: Container(
           height: barHeight,
           decoration: BoxDecoration(
@@ -593,6 +597,8 @@ class _BetterPlayerCupertinoControlsState
           borderRadius: BorderRadius.circular(10),
           child: Container(
             height: barHeight,
+            margin: EdgeInsets.only(
+                left: _betterPlayerController!.isFullScreen ? 66 : 0),
             padding: EdgeInsets.symmetric(
               horizontal: buttonPadding,
             ),
