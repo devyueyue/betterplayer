@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
@@ -362,9 +363,17 @@ class _BetterPlayerCupertinoControlsState
                 )
               : Padding(
                   padding: EdgeInsets.fromLTRB(
-                      _betterPlayerController!.isFullScreen ? 70 : 0,
+                      _betterPlayerController!.isFullScreen
+                          ? Platform.isAndroid
+                              ? 70
+                              : 90
+                          : 0,
                       0,
-                      _betterPlayerController!.isFullScreen ? 66 : 0,
+                      _betterPlayerController!.isFullScreen
+                          ? Platform.isAndroid
+                              ? 66
+                              : 86
+                          : 0,
                       _betterPlayerController!.isFullScreen
                           ? marginSize + 18
                           : 0),
@@ -595,7 +604,11 @@ class _BetterPlayerCupertinoControlsState
           child: Container(
             height: barHeight,
             margin: EdgeInsets.only(
-                left: _betterPlayerController!.isFullScreen ? 66 : 0),
+                left: _betterPlayerController!.isFullScreen
+                    ? Platform.isAndroid
+                        ? 66
+                        : 86
+                    : 0),
             padding: EdgeInsets.symmetric(
               horizontal: buttonPadding,
             ),
