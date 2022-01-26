@@ -341,233 +341,226 @@ class _BetterPlayerCupertinoControlsState
       onEnd: _onPlayerHide,
       child: Container(
         alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.fromLTRB(marginSize, marginSize, marginSize, 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Container(
-            height: barHeight,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-              Color(0xff000000).withOpacity(0.6),
-              Color(0xff000000).withOpacity(0.0)
-            ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
-            child: _betterPlayerController!.isLiveStream()
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const SizedBox(width: 8),
-                      if (_controlsConfiguration.enablePlayPause)
-                        _buildPlayPause(_controller!, iconColor, barHeight)
-                      else
-                        const SizedBox(),
-                      const SizedBox(width: 8),
-                      _buildLiveWidget(),
-                    ],
-                  )
-                : Padding(
-                    padding: EdgeInsets.only(
-                        bottom: _betterPlayerController!.isFullScreen
-                            ? marginSize + 18
-                            : 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: <Widget>[
-                              if (_controlsConfiguration.enableSkips)
-                                _buildSkipBack(iconColor, barHeight)
-                              else
-                                const SizedBox(),
-                              if (_controlsConfiguration.enablePlayPause &&
-                                  !_betterPlayerController!.isFullScreen)
-                                _buildPlayPause(
-                                    _controller!, iconColor, barHeight)
-                              else
-                                const SizedBox(),
-                              if (_controlsConfiguration.enableSkips)
-                                _buildSkipForward(iconColor, barHeight)
-                              else
-                                const SizedBox(),
-                              if (_controlsConfiguration.enableProgressText)
-                                _buildPosition()
-                              else
-                                const SizedBox(),
-                              if (_controlsConfiguration.enableProgressBar)
-                                _buildProgressBar()
-                              else
-                                const SizedBox(),
-                              if (_controlsConfiguration.enableProgressText)
-                                _buildRemaining()
-                              else
-                                const SizedBox(),
-                              if (!(_betterPlayerController?.isFullScreen ??
-                                  false))
-                                _buildExpandButton(
-                                  backgroundColor,
-                                  iconColor,
-                                  barHeightValue,
-                                  iconSize,
-                                  10,
-                                )
-                              else
-                                const SizedBox(),
-                            ],
-                          ),
+        margin: EdgeInsets.only(top: marginSize),
+        child: Container(
+          height: barHeight,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Color(0xff000000).withOpacity(0.6),
+            Color(0xff000000).withOpacity(0.0)
+          ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
+          child: _betterPlayerController!.isLiveStream()
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    const SizedBox(width: 8),
+                    if (_controlsConfiguration.enablePlayPause)
+                      _buildPlayPause(_controller!, iconColor, barHeight)
+                    else
+                      const SizedBox(),
+                    const SizedBox(width: 8),
+                    _buildLiveWidget(),
+                  ],
+                )
+              : Padding(
+                  padding: EdgeInsets.only(
+                      bottom: _betterPlayerController!.isFullScreen
+                          ? marginSize + 18
+                          : 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            if (_controlsConfiguration.enableSkips)
+                              _buildSkipBack(iconColor, barHeight)
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enablePlayPause &&
+                                !_betterPlayerController!.isFullScreen)
+                              _buildPlayPause(
+                                  _controller!, iconColor, barHeight)
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableSkips)
+                              _buildSkipForward(iconColor, barHeight)
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableProgressText)
+                              _buildPosition()
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableProgressBar)
+                              _buildProgressBar()
+                            else
+                              const SizedBox(),
+                            if (_controlsConfiguration.enableProgressText)
+                              _buildRemaining()
+                            else
+                              const SizedBox(),
+                            if (!(_betterPlayerController?.isFullScreen ??
+                                false))
+                              _buildExpandButton(
+                                backgroundColor,
+                                iconColor,
+                                barHeightValue,
+                                iconSize,
+                                10,
+                              )
+                            else
+                              const SizedBox(),
+                          ],
                         ),
-                        (_controlsConfiguration.enablePlayPause &&
-                                _betterPlayerController!.isFullScreen)
-                            ? Container(
-                                height: 20,
-                                child: Row(
-                                  children: [
-                                    if (_controlsConfiguration
-                                            .enablePlayPause &&
-                                        _betterPlayerController!.isFullScreen)
-                                      _buildPlayPause(
-                                          _controller!, iconColor, barHeight),
-                                    Expanded(child: SizedBox()),
-                                    betterPlayerController!
-                                                .betterPlayerSubtitlesSourceList
-                                                .length <
-                                            2
-                                        ? SizedBox()
-                                        : InkWell(
-                                            onTap: () {
-                                              ///字幕点击事件
-                                              subtitleList = betterPlayerController!
-                                                  .betterPlayerSubtitlesSourceList;
-                                              if (subtitleList.isEmpty ||
-                                                  subtitleList.length == 1) {
-                                                return;
-                                              }
-                                              if (fontList.isEmpty) {
-                                                for (int i = 0;
-                                                    i < subtitleList.length;
-                                                    i++) {
-                                                  BetterPlayerSubtitlesSource
-                                                      betterItem =
-                                                      subtitleList[i];
-                                                  fontList.add({
-                                                    'title': (i ==
-                                                            subtitleList
-                                                                    .length -
-                                                                1)
-                                                        ? '关闭字幕'
-                                                        : betterItem.name ?? '',
-                                                    'is_select': (i ==
-                                                            subtitleList
-                                                                    .length -
-                                                                1)
-                                                        ? 'true'
-                                                        : 'false',
-                                                    'type': 'font'
-                                                  });
-                                                }
-                                              }
-                                              dataList = fontList;
-                                              _scaffoldKey.currentState
-                                                  ?.openDrawer();
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 12),
-                                              child: Text(
-                                                '字幕',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 13),
-                                              ),
-                                            ),
-                                          ),
-                                    (betterPlayerController!
-                                                    .betterPlayerDataSource!
-                                                    .resolutions ??
-                                                {})
-                                            .isEmpty
-                                        ? SizedBox()
-                                        : InkWell(
-                                            onTap: () {
-                                              ///清晰度点击事件
-                                              resolutionMap =
-                                                  betterPlayerController!
-                                                          .betterPlayerDataSource!
-                                                          .resolutions ??
-                                                      {};
-                                              if (resolutionMap.isEmpty) {
-                                                return;
-                                              }
-                                              if (qualityList.isEmpty) {
-                                                resolutionMap
-                                                    .forEach((key, value) {
-                                                  bool isSelect =
-                                                      (betterPlayerController!
-                                                                  .betterPlayerDataSource
-                                                                  ?.url ??
-                                                              '') ==
-                                                          value;
-                                                  qualityList.add({
-                                                    'title': key,
-                                                    'is_select': isSelect
-                                                        ? 'true'
-                                                        : 'false',
-                                                    'type': 'quality',
-                                                    'url': value
-                                                  });
+                      ),
+                      (_controlsConfiguration.enablePlayPause &&
+                              _betterPlayerController!.isFullScreen)
+                          ? Container(
+                              height: 20,
+                              child: Row(
+                                children: [
+                                  if (_controlsConfiguration.enablePlayPause &&
+                                      _betterPlayerController!.isFullScreen)
+                                    _buildPlayPause(
+                                        _controller!, iconColor, barHeight),
+                                  Expanded(child: SizedBox()),
+                                  betterPlayerController!
+                                              .betterPlayerSubtitlesSourceList
+                                              .length <
+                                          2
+                                      ? SizedBox()
+                                      : InkWell(
+                                          onTap: () {
+                                            ///字幕点击事件
+                                            subtitleList = betterPlayerController!
+                                                .betterPlayerSubtitlesSourceList;
+                                            if (subtitleList.isEmpty ||
+                                                subtitleList.length == 1) {
+                                              return;
+                                            }
+                                            if (fontList.isEmpty) {
+                                              for (int i = 0;
+                                                  i < subtitleList.length;
+                                                  i++) {
+                                                BetterPlayerSubtitlesSource
+                                                    betterItem =
+                                                    subtitleList[i];
+                                                fontList.add({
+                                                  'title': (i ==
+                                                          subtitleList.length -
+                                                              1)
+                                                      ? '关闭字幕'
+                                                      : betterItem.name ?? '',
+                                                  'is_select': (i ==
+                                                          subtitleList.length -
+                                                              1)
+                                                      ? 'true'
+                                                      : 'false',
+                                                  'type': 'font'
                                                 });
                                               }
-                                              dataList = qualityList;
-                                              _scaffoldKey.currentState
-                                                  ?.openDrawer();
-                                            },
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 12),
-                                              child: Text(
-                                                qualityValue,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 13),
-                                              ),
+                                            }
+                                            dataList = fontList;
+                                            _scaffoldKey.currentState
+                                                ?.openDrawer();
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12),
+                                            child: Text(
+                                              '字幕',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13),
                                             ),
                                           ),
-                                    InkWell(
-                                      onTap: () {
-                                        /// 倍速点击事件
-                                        dataList = speedList;
-                                        setState(() {});
-                                        _scaffoldKey.currentState?.openDrawer();
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12),
-                                        child: Text(
-                                          '倍速',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 13),
                                         ),
+                                  (betterPlayerController!
+                                                  .betterPlayerDataSource!
+                                                  .resolutions ??
+                                              {})
+                                          .isEmpty
+                                      ? SizedBox()
+                                      : InkWell(
+                                          onTap: () {
+                                            ///清晰度点击事件
+                                            resolutionMap =
+                                                betterPlayerController!
+                                                        .betterPlayerDataSource!
+                                                        .resolutions ??
+                                                    {};
+                                            if (resolutionMap.isEmpty) {
+                                              return;
+                                            }
+                                            if (qualityList.isEmpty) {
+                                              resolutionMap
+                                                  .forEach((key, value) {
+                                                bool isSelect =
+                                                    (betterPlayerController!
+                                                                .betterPlayerDataSource
+                                                                ?.url ??
+                                                            '') ==
+                                                        value;
+                                                qualityList.add({
+                                                  'title': key,
+                                                  'is_select': isSelect
+                                                      ? 'true'
+                                                      : 'false',
+                                                  'type': 'quality',
+                                                  'url': value
+                                                });
+                                              });
+                                            }
+                                            dataList = qualityList;
+                                            _scaffoldKey.currentState
+                                                ?.openDrawer();
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 12),
+                                            child: Text(
+                                              qualityValue,
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 13),
+                                            ),
+                                          ),
+                                        ),
+                                  InkWell(
+                                    onTap: () {
+                                      /// 倍速点击事件
+                                      dataList = speedList;
+                                      setState(() {});
+                                      _scaffoldKey.currentState?.openDrawer();
+                                    },
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 12),
+                                      child: Text(
+                                        '倍速',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 13),
                                       ),
                                     ),
-                                    // InkWell(
-                                    //   onTap: () {},
-                                    //   child: Padding(
-                                    //     padding:
-                                    //         EdgeInsets.symmetric(horizontal: 12),
-                                    //     child: Text(
-                                    //       '目录',
-                                    //       style: TextStyle(
-                                    //           color: Colors.red, fontSize: 13),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ],
-                                ))
-                            : SizedBox()
-                      ],
-                    ),
+                                  ),
+                                  // InkWell(
+                                  //   onTap: () {},
+                                  //   child: Padding(
+                                  //     padding:
+                                  //         EdgeInsets.symmetric(horizontal: 12),
+                                  //     child: Text(
+                                  //       '目录',
+                                  //       style: TextStyle(
+                                  //           color: Colors.red, fontSize: 13),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ))
+                          : SizedBox()
+                    ],
                   ),
-          ),
+                ),
         ),
       ),
     );
