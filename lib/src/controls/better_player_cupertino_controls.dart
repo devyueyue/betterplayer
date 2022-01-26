@@ -289,10 +289,8 @@ class _BetterPlayerCupertinoControlsState
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
       },
-      child: AbsorbPointer(
-          absorbing: controlsNotVisible,
-          child:
-              isFullScreen ? SafeArea(child: controlsColumn) : controlsColumn),
+      child:
+          AbsorbPointer(absorbing: controlsNotVisible, child: controlsColumn),
     );
   }
 
