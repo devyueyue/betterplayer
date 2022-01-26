@@ -838,8 +838,13 @@ class _BetterPlayerCupertinoControlsState
     final iconSize = topBarHeight * 0.4;
     return Container(
       height: barHeight,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+        Color(0xff000000).withOpacity(0),
+        Color(0xff000000).withOpacity(0.6)
+      ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
       margin: EdgeInsets.only(
-        top: marginSize,
+        top: 0,
         right: marginSize,
         left: marginSize,
       ),
