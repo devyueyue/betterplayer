@@ -831,75 +831,80 @@ class _BetterPlayerCupertinoControlsState
     double topBarHeight,
     double buttonPadding,
   ) {
-    if (!betterPlayerController!.controlsEnabled) {
+    if (!betterPlayerController!.controlsEnabled ||
+        !(_betterPlayerController?.isFullScreen ?? false)) {
       return const SizedBox();
     }
     final barHeight = topBarHeight * 0.8;
     final iconSize = topBarHeight * 0.4;
-    return Container(
-      height: barHeight,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-        Color(0xff000000).withOpacity(0),
-        Color(0xff000000).withOpacity(0.6)
-      ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
-      margin: EdgeInsets.only(
-        top: 0,
-        right: marginSize,
-        left: marginSize,
-      ),
-      child: Row(
-        children: <Widget>[
-          if (_betterPlayerController?.isFullScreen ?? false)
-            _buildExpandButton(
-              backgroundColor,
-              iconColor,
-              barHeight,
-              iconSize,
-              buttonPadding,
-            )
-          else
-            const SizedBox(),
-          const SizedBox(
-            width: 4,
-          ),
-          if (_controlsConfiguration.enablePip)
-            _buildPipButton(
-              backgroundColor,
-              iconColor,
-              barHeight,
-              iconSize,
-              buttonPadding,
-            )
-          else
-            const SizedBox(),
-          const Spacer(),
-          if (_controlsConfiguration.enableMute)
-            _buildMuteButton(
-              _controller,
-              backgroundColor,
-              iconColor,
-              barHeight,
-              iconSize,
-              buttonPadding,
-            )
-          else
-            const SizedBox(),
-          const SizedBox(
-            width: 4,
-          ),
-          if (_controlsConfiguration.enableOverflowMenu)
-            _buildMoreButton(
-              _controller,
-              backgroundColor,
-              iconColor,
-              barHeight,
-              iconSize,
-              buttonPadding,
-            )
-          else
-            const SizedBox(),
-        ],
+    return AnimatedOpacity(
+      opacity: controlsNotVisible ? 0.0 : 1.0,
+      duration: _controlsConfiguration.controlsHideTime,
+      child: Container(
+        height: barHeight,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+          Color(0xff000000).withOpacity(0),
+          Color(0xff000000).withOpacity(0.6)
+        ], begin: Alignment.bottomCenter, end: Alignment.topCenter)),
+        margin: EdgeInsets.only(
+          top: 0,
+          right: marginSize,
+          left: marginSize,
+        ),
+        child: Row(
+          children: <Widget>[
+            if (_betterPlayerController?.isFullScreen ?? false)
+              _buildExpandButton(
+                backgroundColor,
+                iconColor,
+                barHeight,
+                iconSize,
+                buttonPadding,
+              )
+            else
+              const SizedBox(),
+            const SizedBox(
+              width: 4,
+            ),
+            if (_controlsConfiguration.enablePip)
+              _buildPipButton(
+                backgroundColor,
+                iconColor,
+                barHeight,
+                iconSize,
+                buttonPadding,
+              )
+            else
+              const SizedBox(),
+            const Spacer(),
+            if (_controlsConfiguration.enableMute)
+              _buildMuteButton(
+                _controller,
+                backgroundColor,
+                iconColor,
+                barHeight,
+                iconSize,
+                buttonPadding,
+              )
+            else
+              const SizedBox(),
+            const SizedBox(
+              width: 4,
+            ),
+            if (_controlsConfiguration.enableOverflowMenu)
+              _buildMoreButton(
+                _controller,
+                backgroundColor,
+                iconColor,
+                barHeight,
+                iconSize,
+                buttonPadding,
+              )
+            else
+              const SizedBox(),
+          ],
+        ),
       ),
     );
   }
