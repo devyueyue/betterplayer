@@ -647,39 +647,58 @@ class _BetterPlayerCupertinoControlsState
         child: Container(
           color: Colors.transparent,
           child: _betterPlayerController!.isFullScreen
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.camera_alt_outlined,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            size: 22,
-                            color: Colors.white,
-                          )
-                        ],
+              ? AnimatedOpacity(
+                  opacity: controlsNotVisible ? 0.0 : 1.0,
+                  duration: _controlsConfiguration.controlsHideTime,
+                  onEnd: _onPlayerHide,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {},
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {},
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: Icon(
+                                  Icons.star_border,
+                                  size: 22,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: _betterPlayerController!.isFullScreen
-                          ? Platform.isAndroid
-                              ? 70
-                              : 90
-                          : 0,
-                    )
-                  ],
+                      SizedBox(
+                        width: _betterPlayerController!.isFullScreen
+                            ? Platform.isAndroid
+                                ? 70
+                                : 90
+                            : 0,
+                      )
+                    ],
+                  ),
                 )
               : SizedBox(),
         ),
