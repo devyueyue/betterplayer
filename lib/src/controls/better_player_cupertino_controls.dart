@@ -646,6 +646,42 @@ class _BetterPlayerCupertinoControlsState
               },
         child: Container(
           color: Colors.transparent,
+          child: _betterPlayerController!.isFullScreen
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.camera_alt_outlined,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Icon(
+                            Icons.star_border,
+                            size: 22,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: _betterPlayerController!.isFullScreen
+                          ? Platform.isAndroid
+                              ? 70
+                              : 90
+                          : 0,
+                    )
+                  ],
+                )
+              : SizedBox(),
         ),
       ),
     );
