@@ -662,7 +662,9 @@ class _BetterPlayerCupertinoControlsState
                           children: [
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
-                              onTap: () {},
+                              onTap: () {
+                                print('-----player---点击了截图');
+                              },
                               child: Padding(
                                 padding: EdgeInsets.all(8),
                                 child: Icon(
