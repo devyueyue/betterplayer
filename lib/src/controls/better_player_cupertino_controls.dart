@@ -13,6 +13,7 @@ import 'package:better_player/src/subtitles/better_player_subtitles_source_type.
 import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:native_screenshot/native_screenshot.dart';
 
 class BetterPlayerCupertinoControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
@@ -663,7 +664,15 @@ class _BetterPlayerCupertinoControlsState
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
-                                print('-----player---点击了截图');
+                                _hideTimer?.cancel();
+                                changePlayerControlsNotVisible(true);
+                                Future.delayed(Duration(milliseconds: 500),
+                                    () async {
+                                  String path =
+                                      await NativeScreenshot.takeScreenshot() ??
+                                          '';
+                                  print('-----player---点击了截图');
+                                });
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(8),

@@ -2,6 +2,7 @@ import 'package:better_player/better_player.dart';
 import 'package:better_player_example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:native_screenshot/native_screenshot.dart';
 
 class NormalPlayerPage extends StatefulWidget {
   @override
@@ -82,9 +83,31 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       body: Column(
         children: [
           const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Memory player with plays video from bytes list. In this example"
+              "file bytes are read to list and then used in player.",
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
           AspectRatio(
             aspectRatio: 16 / 9,
             child: BetterPlayer(controller: _betterPlayerController),
+          ),
+          GestureDetector(
+            onTap: () async {
+              String path = await NativeScreenshot.takeScreenshot() ?? '';
+              print('-----hhyyy-截图成功---${path}');
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Memory player with plays video from bytes list. In this example"
+                "file bytes are read to list and then used in player.",
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
           ),
         ],
       ),

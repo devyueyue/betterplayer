@@ -154,6 +154,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.7.0"
+  native_screenshot:
+    dependency: "direct main"
+    description:
+      name: native_screenshot
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
