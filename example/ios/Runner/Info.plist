@@ -33,6 +33,8 @@
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>用于从相册获取照片，笔记上传</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Take pretty screenshots and save it to the PhotoLibrary.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
