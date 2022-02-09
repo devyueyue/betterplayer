@@ -2,8 +2,8 @@ import 'package:better_player/better_player.dart';
 import 'package:better_player_example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:native_screenshot/native_screenshot.dart';
-import 'package:flutter_native_screenshot/flutter_native_screenshot.dart';
+import 'package:native_screenshot/native_screenshot.dart';
+// import 'package:flutter_native_screenshot/flutter_native_screenshot.dart';
 
 class NormalPlayerPage extends StatefulWidget {
   @override
@@ -98,8 +98,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ),
           GestureDetector(
             onTap: () async {
-              // String path = await NativeScreenshot.takeScreenshot() ?? '';
-              String? path = await FlutterNativeScreenshot.takeScreenshot();
+              String path = await NativeScreenshot.takeScreenshot() ?? '';
+              // String? path = await FlutterNativeScreenshot.takeScreenshot();
               print('-----hhyyy-截图成功---${path}');
             },
             child: Padding(
