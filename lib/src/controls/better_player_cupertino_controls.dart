@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:better_player/src/configuration/better_player_controls_configuration.dart';
 import 'package:better_player/src/controls/better_player_controls_state.dart';
@@ -82,6 +83,10 @@ class _BetterPlayerCupertinoControlsState
 
   final courseButtonController = StreamController<bool>();
   Stream<bool> get courseStream => courseButtonController.stream;
+
+  StreamController<String?> screenImageController =
+      StreamController<String?>.broadcast();
+  Stream<String?> get screenImageStream => screenImageController.stream;
   int fontSelectIndex = -1;
 
   ///  设置字幕
@@ -102,7 +107,83 @@ class _BetterPlayerCupertinoControlsState
         key: _scaffoldKey,
         backgroundColor: Colors.transparent,
         drawer: _betterPlayerController!.isFullScreen ? _buildDrawer() : null,
-        body: buildLTRDirectionality(_buildMainWidget()));
+        body: Stack(
+          children: [
+            buildLTRDirectionality(_buildMainWidget()),
+            StreamBuilder<String?>(
+                stream: screenImageStream,
+                builder: (context, snapshot) {
+                  String imageUrl = snapshot.data ?? '';
+                  return imageUrl.isEmpty
+                      ? SizedBox()
+                      : Container(
+                          color: Colors.black87,
+                          height: double.infinity,
+                          width: double.infinity,
+                          padding: EdgeInsets.fromLTRB(190, 30, 180, 40),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                    child: Image.file(File(imageUrl)),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    right: 0,
+                                    child: GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        screenImageController.sink.add('');
+                                        _onPlayPause();
+                                      },
+                                      child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(180)),
+                                            color:
+                                                Colors.black.withOpacity(0.3)),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )),
+                              GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  _onExpandCollapse();
+                                },
+                                child: Container(
+                                  height: 38,
+                                  width: 127,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(90)),
+                                    color: Colors.white.withOpacity(0.3),
+                                  ),
+                                  child: Text(
+                                    '截图写笔记',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 13, color: Colors.white),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                })
+          ],
+        ));
   }
 
   /// 设置按钮样式
@@ -309,6 +390,7 @@ class _BetterPlayerCupertinoControlsState
     _initTimer?.cancel();
     _controlsVisibilityStreamSubscription?.cancel();
     courseButtonController.close();
+    screenImageController.close();
   }
 
   @override
@@ -664,10 +746,16 @@ class _BetterPlayerCupertinoControlsState
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () async {
+                                _onPlayPause();
+                                if (screenImageController.isClosed) {
+                                  screenImageController =
+                                      StreamController<String?>.broadcast();
+                                }
                                 if (Platform.isIOS) {
                                   String? path = await _betterPlayerController!
                                       .videoPlayerController
                                       ?.takeScreenshot();
+                                  screenImageController.sink.add(path);
                                   print('-----player---点击了截图===value==${path}');
                                 } else {
                                   _hideTimer?.cancel();
@@ -677,6 +765,7 @@ class _BetterPlayerCupertinoControlsState
                                     String path = await NativeScreenshot
                                             .takeScreenshot() ??
                                         '';
+                                    screenImageController.sink.add(path);
                                     print('-----player---点击了截图--path==${path}');
                                   });
                                 }
