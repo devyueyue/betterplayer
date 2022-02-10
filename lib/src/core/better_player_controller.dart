@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:better_player/better_player.dart';
 import 'package:better_player/src/configuration/better_player_controller_event.dart';
 import 'package:better_player/src/core/better_player_utils.dart';
@@ -21,6 +22,9 @@ class BetterPlayerController {
   static const String _speedParameter = "speed";
   static const String _dataSourceParameter = "dataSource";
   static const String _authorizationHeader = "Authorization";
+
+  /// 截屏图片地址
+  String? screenImagePath;
 
   ///General configuration used in controller instance.
   final BetterPlayerConfiguration betterPlayerConfiguration;

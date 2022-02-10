@@ -38,7 +38,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
 
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      Constants.elephantDreamVideoUrl,
+      // Constants.elephantDreamVideoUrl,
+      Constants.exampleResolutionsUrls['LOW']!,
       liveStream: false,
       useAsmsSubtitles: true,
       // resolutions: {
@@ -71,6 +72,11 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     _betterPlayerController.setupDataSource(_betterPlayerDataSource);
     _betterPlayerController.setBetterPlayerControlsConfiguration(
         betterPlayerControlsConfiguration);
+    _betterPlayerController.addEventsListener((data) {
+      print(
+          '--------hhhy---listener==${data}-----path==${_betterPlayerController.screenImagePath}');
+    });
+
     super.initState();
   }
 

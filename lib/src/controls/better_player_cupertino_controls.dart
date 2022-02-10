@@ -136,6 +136,8 @@ class _BetterPlayerCupertinoControlsState
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.opaque,
                                       onTap: () {
+                                        _betterPlayerController!
+                                            .screenImagePath = '';
                                         screenImageController.sink.add('');
                                         _onPlayPause();
                                       },
@@ -755,6 +757,8 @@ class _BetterPlayerCupertinoControlsState
                                   String? path = await _betterPlayerController!
                                       .videoPlayerController
                                       ?.takeScreenshot();
+                                  _betterPlayerController!.screenImagePath =
+                                      path;
                                   screenImageController.sink.add(path);
                                   print('-----player---点击了截图===value==${path}');
                                 } else {
@@ -765,6 +769,8 @@ class _BetterPlayerCupertinoControlsState
                                     String path = await NativeScreenshot
                                             .takeScreenshot() ??
                                         '';
+                                    _betterPlayerController!.screenImagePath =
+                                        path;
                                     screenImageController.sink.add(path);
                                     print('-----player---点击了截图--path==${path}');
                                   });
