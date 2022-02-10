@@ -136,10 +136,10 @@ class _BetterPlayerCupertinoControlsState
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.opaque,
                                       onTap: () {
+                                        _onPlayPause();
                                         _betterPlayerController!
                                             .screenImagePath = '';
                                         screenImageController.sink.add('');
-                                        _onPlayPause();
                                       },
                                       child: Container(
                                         width: 24,
