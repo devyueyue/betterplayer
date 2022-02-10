@@ -23,7 +23,6 @@ dependencies:
   collection: ^1.15.0
   xml: ^5.3.1
   native_screenshot: ^1.0.0
-  flutter_native_screenshot: ^1.1.2
 
 dev_dependencies:
   lint: ^1.8.1
