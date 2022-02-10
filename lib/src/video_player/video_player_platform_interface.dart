@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:better_player/src/configuration/better_player_buffering_configuration.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+
 import 'method_channel_video_player.dart';
 
 /// The interface that implementations of video_player must implement.
@@ -69,6 +70,11 @@ abstract class VideoPlayerPlatform {
   Future<int?> create(
       {BetterPlayerBufferingConfiguration? bufferingConfiguration}) {
     throw UnimplementedError('create() has not been implemented.');
+  }
+
+  ///  屏幕截图
+  Future<String?> takeScreenshot() {
+    throw UnimplementedError('takeScreenshot() has not been implemented.');
   }
 
   /// Pre-caches a video.

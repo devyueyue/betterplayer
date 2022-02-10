@@ -276,6 +276,78 @@ bool _remoteCommandsInitialized = false;
 
 }
 
+-(NSString *)getScreenshotName {
+    NSDateFormatter* format = [[NSDateFormatter alloc] init];
+    format.dateFormat = @"yyyymmddHHmmss";
+    NSDate* date = [[NSDate alloc] init];
+    return [NSString stringWithFormat:@"native_screenshot-%@", [format stringFromDate:date]];
+}
+
+-(NSURL *)getScreenshotPath {
+    NSArray<NSURL *> *paths = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+    NSURL *dir = [paths firstObject];
+    if (dir == nil) {
+        return nil;
+    }
+    return [dir URLByAppendingPathComponent: [self getScreenshotName]];
+}
+
+
+-(NSString *) writeImageToDefaultPath: (UIImage*) image {
+    NSData *imageData = UIImagePNGRepresentation(image);
+    if (imageData == nil) {
+        return nil;
+    }
+    NSURL *path = [self getScreenshotPath];
+    if (path == nil) {
+        return nil;
+    }
+    BOOL success = [imageData writeToURL:path atomically:YES];
+    if (!success) {
+        return nil;
+    }
+    return [path path];
+}
+
+-(void) writeImageToGallery: (UIImage*) image {
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+
+}
+
+-(void) takeScreenshot: (BetterPlayer*) player result:(FlutterResult)result{
+    UIImage *image = [self getAVPlayerScreenshot:player];
+    if (image == nil) {
+        result(nil);
+        return;
+    }
+    NSString* path = [self writeImageToDefaultPath:image];
+    if (path == nil) {
+        result(nil);
+        return;
+    }
+    result(path);
+    [self writeImageToGallery:image];
+}
+
+-(UIImage *)getAVPlayerScreenshot: (BetterPlayer*) player
+{
+    AVPlayerItem *playerItem = player.player.currentItem;
+    AVURLAsset *asset = (AVURLAsset *)playerItem.asset;
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+    imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+    CGImageRef thumb = [imageGenerator copyCGImageAtTime:playerItem.currentTime
+                                              actualTime:NULL
+                                                   error:NULL];
+    UIImage *videoImage = [UIImage imageWithCGImage:thumb];
+    CGImageRelease(thumb);
+    return videoImage;
+}
+
+
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
 
@@ -466,7 +538,9 @@ bool _remoteCommandsInitialized = false;
                 }
             }
             result(nil);
-        } else {
+        }else if ([@"takeScreenshot" isEqualToString:call.method]){
+                     [self takeScreenshot:player result: result];
+                 } else {
             result(FlutterMethodNotImplemented);
         }
     }

@@ -663,16 +663,23 @@ class _BetterPlayerCupertinoControlsState
                           children: [
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                _hideTimer?.cancel();
-                                changePlayerControlsNotVisible(true);
-                                Future.delayed(Duration(milliseconds: 500),
-                                    () async {
-                                  String path =
-                                      await NativeScreenshot.takeScreenshot() ??
-                                          '';
-                                  print('-----player---点击了截图');
-                                });
+                              onTap: () async {
+                                if (Platform.isIOS) {
+                                  String? path = await _betterPlayerController!
+                                      .videoPlayerController
+                                      ?.takeScreenshot();
+                                  print('-----player---点击了截图===value==${path}');
+                                } else {
+                                  _hideTimer?.cancel();
+                                  changePlayerControlsNotVisible(true);
+                                  Future.delayed(Duration(milliseconds: 500),
+                                      () async {
+                                    String path = await NativeScreenshot
+                                            .takeScreenshot() ??
+                                        '';
+                                    print('-----player---点击了截图--path==${path}');
+                                  });
+                                }
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(8),
