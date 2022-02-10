@@ -758,7 +758,7 @@ class _BetterPlayerCupertinoControlsState
                                     await Permission.storage.request();
                                 if (permission.isGranted) {
                                   _onPlayPause();
-                                  if (Platform.isIOS) {
+                                  if (Platform.isAndroid) {
                                     String? path =
                                         await _betterPlayerController!
                                             .videoPlayerController
