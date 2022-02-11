@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_screenshot/native_screenshot.dart';
 
-import '../constants.dart';
-
 class NormalPlayerPage extends StatefulWidget {
   @override
   _NormalPlayerPageState createState() => _NormalPlayerPageState();
@@ -40,8 +38,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       // Constants.elephantDreamVideoUrl,
-      Constants.exampleResolutionsUrls['LOW']!,
-      // 'https://v.zhijisx.net/b3bbbfb378fe434991ab24891e4f9c83/video/6cc35d32d9d84f249dd4e9fb62884517-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1644507614-0d699c8704374f00bb18afaea7430758-0-b5e4030ab1af4c207b82580016b47f29&MtsHlsUriToken=1644511214_00_c0e677e72903494d144e',
+      // Constants.exampleResolutionsUrls['LOW']!,
+      'https://v.botaoyouxue.com/82fb1a479815417dba2a21baa0522141/video/dc248ec239014579ad59d7b1257264e3-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1644564299-2a5adf00403e4c7089e32e9c84180f39-0-209fcd2539e4da19c2f5c0472fb6681a&MtsHlsUriToken=1644567899_00_6b68329c2d37f90d8621',
       liveStream: false,
       useAsmsSubtitles: true,
       // resolutions: {

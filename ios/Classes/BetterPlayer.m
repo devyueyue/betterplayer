@@ -26,6 +26,7 @@ AVPictureInPictureController *_pipController;
     _isInitialized = false;
     _isPlaying = false;
     _disposed = false;
+
     _player = [[AVPlayer alloc] init];
     _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
     ///Fix for loading large videos
@@ -166,7 +167,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         fps = (int) ceil(nominalFrameRate);
     }
     videoComposition.frameDuration = CMTimeMake(1, fps);
-    
+
     return videoComposition;
 }
 
@@ -200,7 +201,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
     if (headers == [NSNull null] || headers == NULL){
         headers = @{};
     }
-    
+
     AVPlayerItem* item;
     if (useCache){
         if (cacheKey == [NSNull null]){
@@ -209,7 +210,7 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
         if (videoExtension == [NSNull null]){
             videoExtension = nil;
         }
-        
+
         item = [cacheManager getCachingPlayerItemForNormalPlayback:url cacheKey:cacheKey videoExtension: videoExtension headers:headers];
     } else {
         AVURLAsset* asset = [AVURLAsset URLAssetWithURL:url
@@ -223,6 +224,9 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
             [asset.resourceLoader setDelegate:_loaderDelegate queue:streamQueue];
         }
         item = [AVPlayerItem playerItemWithAsset:asset];
+        NSDictionary *settings = @{(id)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
+        AVPlayerItemVideoOutput *videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:settings];
+        [item addOutput:videoOutput];
     }
 
     if (@available(iOS 10.0, *) && overriddenDuration > 0) {

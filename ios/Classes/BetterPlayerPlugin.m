@@ -334,17 +334,36 @@ bool _remoteCommandsInitialized = false;
 
 -(UIImage *)getAVPlayerScreenshot: (BetterPlayer*) player
 {
+    // AVPlayerItem *playerItem = player.player.currentItem;
+    // AVURLAsset *asset = (AVURLAsset *)playerItem.asset;
+    // AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    // imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+    // imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+    // CGImageRef thumb = [imageGenerator copyCGImageAtTime:playerItem.currentTime
+    //                                           actualTime:NULL
+    //                                                error:NULL];
+    // UIImage *videoImage = [UIImage imageWithCGImage:thumb];
+    // CGImageRelease(thumb);
+    // return videoImage;
+
+    //
+
     AVPlayerItem *playerItem = player.player.currentItem;
-    AVURLAsset *asset = (AVURLAsset *)playerItem.asset;
-    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
-    imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
-    CGImageRef thumb = [imageGenerator copyCGImageAtTime:playerItem.currentTime
-                                              actualTime:NULL
-                                                   error:NULL];
-    UIImage *videoImage = [UIImage imageWithCGImage:thumb];
-    CGImageRelease(thumb);
-    return videoImage;
+    AVPlayerItemVideoOutput *output =  playerItem.outputs.lastObject;
+    CVPixelBufferRef pixelBuffer = [output copyPixelBufferForItemTime:playerItem.currentTime itemTimeForDisplay:nil];
+    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
+    CIContext *temporaryContext = [CIContext contextWithOptions:nil];
+    CGImageRef videoImage = [temporaryContext createCGImage:ciImage
+                                                   fromRect:CGRectMake(0, 0,
+                                                 CVPixelBufferGetWidth(pixelBuffer),
+                                                 CVPixelBufferGetHeight(pixelBuffer))];
+    UIImage *frameImg = [UIImage imageWithCGImage:videoImage];
+    CGImageRelease(videoImage);
+    //不释放会造成内存泄漏
+    CVBufferRelease(pixelBuffer);
+    return frameImg;
+
+
 }
 
 
@@ -382,7 +401,7 @@ bool _remoteCommandsInitialized = false;
             NSString* cacheKey = dataSource[@"cacheKey"];
             NSNumber* maxCacheSize = dataSource[@"maxCacheSize"];
             NSString* videoExtension = dataSource[@"videoExtension"];
-            
+
             int overriddenDuration = 0;
             if ([dataSource objectForKey:@"overriddenDuration"] != [NSNull null]){
                 overriddenDuration = [dataSource[@"overriddenDuration"] intValue];
@@ -501,14 +520,14 @@ bool _remoteCommandsInitialized = false;
             NSDictionary* headers = dataSource[@"headers"];
             NSNumber* maxCacheSize = dataSource[@"maxCacheSize"];
             NSString* videoExtension = dataSource[@"videoExtension"];
-            
+
             if (headers == [ NSNull null ]){
                 headers = @{};
             }
             if (videoExtension == [NSNull null]){
                 videoExtension = nil;
             }
-            
+
             if (urlArg != [NSNull null]){
                 NSURL* url = [NSURL URLWithString:urlArg];
                 if ([_cacheManager isPreCacheSupportedWithUrl:url videoExtension:videoExtension]){
