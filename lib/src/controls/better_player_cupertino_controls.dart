@@ -86,8 +86,7 @@ class _BetterPlayerCupertinoControlsState
   final courseButtonController = StreamController<bool>();
   Stream<bool> get courseStream => courseButtonController.stream;
 
-  StreamController<String?> screenImageController =
-      StreamController<String?>.broadcast();
+  StreamController<String?> screenImageController = StreamController<String?>();
   Stream<String?> get screenImageStream => screenImageController.stream;
   int fontSelectIndex = -1;
 
@@ -138,7 +137,11 @@ class _BetterPlayerCupertinoControlsState
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.opaque,
                                       onTap: () {
-                                        _onPlayPause();
+                                        if (!(_betterPlayerController!
+                                                .isPlaying() ??
+                                            false)) {
+                                          _onPlayPause();
+                                        }
                                         _betterPlayerController!
                                             .screenImagePath = '';
                                         screenImageController.sink.add('');
@@ -752,17 +755,21 @@ class _BetterPlayerCupertinoControlsState
                               onTap: () async {
                                 if (screenImageController.isClosed) {
                                   screenImageController =
-                                      StreamController<String?>.broadcast();
+                                      StreamController<String?>();
                                 }
                                 PermissionStatus permission =
                                     await Permission.storage.request();
                                 if (permission.isGranted) {
-                                  _onPlayPause();
                                   if (Platform.isIOS) {
-                                    String? path =
-                                        await _betterPlayerController!
+                                    String path = await _betterPlayerController!
                                             .videoPlayerController
-                                            ?.takeScreenshot();
+                                            ?.takeScreenshot() ??
+                                        '';
+                                    if (path.isNotEmpty &&
+                                        (_betterPlayerController!.isPlaying() ??
+                                            false)) {
+                                      _onPlayPause();
+                                    }
                                     _betterPlayerController!.screenImagePath =
                                         path;
                                     screenImageController.sink.add(path);
@@ -771,11 +778,17 @@ class _BetterPlayerCupertinoControlsState
                                   } else {
                                     _hideTimer?.cancel();
                                     changePlayerControlsNotVisible(true);
-                                    Future.delayed(Duration(milliseconds: 500),
+                                    Future.delayed(Duration(milliseconds: 100),
                                         () async {
                                       String path = await NativeScreenshot
                                               .takeScreenshot() ??
                                           '';
+                                      if (path.isNotEmpty &&
+                                          (_betterPlayerController!
+                                                  .isPlaying() ??
+                                              false)) {
+                                        _onPlayPause();
+                                      }
                                       _betterPlayerController!.screenImagePath =
                                           path;
                                       screenImageController.sink.add(path);
