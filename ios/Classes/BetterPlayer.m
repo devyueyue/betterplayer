@@ -757,12 +757,18 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
 }
 
 - (void)dispose {
+NSLog(@"Player in BetterPlayerClass :%@",self);
+    AVPlayerItem *playerItem = _player.currentItem;
+    NSLog(@"BeforeCurrentTime:%f", CMTimeGetSeconds(playerItem.currentTime));
+    NSLog(@"BeforeStatus:%ld", (long)playerItem.status);
     [self pause];
     [self disposeSansEventChannel];
     [_eventChannel setStreamHandler:nil];
     [self disablePictureInPicture];
     [self setPictureInPicture:false];
     _disposed = true;
+    NSLog(@"AfterCurrentTime:%f", CMTimeGetSeconds(playerItem.currentTime));
+    NSLog(@"AfterStatus:%ld", (long)playerItem.status);
 }
 
 @end

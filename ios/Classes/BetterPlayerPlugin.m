@@ -19,6 +19,8 @@ int texturesCount = -1;
 BetterPlayer* _notificationPlayer;
 bool _remoteCommandsInitialized = false;
 
+int64_t mTextureId = 0;
+
 
 #pragma mark - FlutterPlugin protocol
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -346,10 +348,13 @@ bool _remoteCommandsInitialized = false;
     // CGImageRelease(thumb);
     // return videoImage;
 
-    //
+    NSLog(@"Player in BetterPlayerPlugin :%@",player);
 
     AVPlayerItem *playerItem = player.player.currentItem;
     AVPlayerItemVideoOutput *output =  playerItem.outputs.lastObject;
+    NSLog(@"CurrentTime:%f", CMTimeGetSeconds(playerItem.currentTime));
+        NSLog(@"Status:%ld", (long)playerItem.status);
+    NSLog(@"VideoOutput:%@", output);
     CVPixelBufferRef pixelBuffer = [output copyPixelBufferForItemTime:playerItem.currentTime itemTimeForDisplay:nil];
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
     CIContext *temporaryContext = [CIContext contextWithOptions:nil];
@@ -380,12 +385,17 @@ bool _remoteCommandsInitialized = false;
         [_players removeAllObjects];
         result(nil);
     } else if ([@"create" isEqualToString:call.method]) {
+
+
         BetterPlayer* player = [[BetterPlayer alloc] initWithFrame:CGRectZero];
         [self onPlayerSetup:player result:result];
     } else {
         NSDictionary* argsMap = call.arguments;
+
         int64_t textureId = ((NSNumber*)argsMap[@"textureId"]).unsignedIntegerValue;
+        //NSLog(@"textureId:%lld",textureId);
         BetterPlayer* player = _players[@(textureId)];
+        //NSLog(@"--------player----: %@", player);
         if ([@"setDataSource" isEqualToString:call.method]) {
             [player clear];
             // This call will clear cached frame because we will return transparent frame
@@ -558,6 +568,8 @@ bool _remoteCommandsInitialized = false;
             }
             result(nil);
         }else if ([@"takeScreenshot" isEqualToString:call.method]){
+        NSLog(@"--------takeScreenshot----: %@", player);
+
                      [self takeScreenshot:player result: result];
                  } else {
             result(FlutterMethodNotImplemented);

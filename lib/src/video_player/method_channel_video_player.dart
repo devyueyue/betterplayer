@@ -57,12 +57,11 @@ class MethodChannelVideoPlayer extends VideoPlayerPlatform {
 
   ///takeScreenshot
   @override
-  Future<String?> takeScreenshot() async {
+  Future<String?> takeScreenshot(int? textureId) async {
     String? path;
     if (Platform.isIOS) {
       path = await _channel.invokeMethod(
-        'takeScreenshot',
-      );
+          'takeScreenshot', <String, dynamic>{'textureId': textureId});
     }
     return path;
   }

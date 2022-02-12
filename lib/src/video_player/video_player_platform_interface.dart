@@ -73,7 +73,7 @@ abstract class VideoPlayerPlatform {
   }
 
   ///  屏幕截图
-  Future<String?> takeScreenshot() {
+  Future<String?> takeScreenshot(int? textureId) {
     throw UnimplementedError('takeScreenshot() has not been implemented.');
   }
 

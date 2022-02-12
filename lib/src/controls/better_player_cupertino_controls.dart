@@ -86,8 +86,7 @@ class _BetterPlayerCupertinoControlsState
   final courseButtonController = StreamController<bool>();
   Stream<bool> get courseStream => courseButtonController.stream;
 
-  StreamController<String?> screenImageController =
-      StreamController<String?>.broadcast();
+  StreamController<String?> screenImageController = StreamController<String?>();
   Stream<String?> get screenImageStream => screenImageController.stream;
   int fontSelectIndex = -1;
 
@@ -752,17 +751,20 @@ class _BetterPlayerCupertinoControlsState
                               onTap: () async {
                                 if (screenImageController.isClosed) {
                                   screenImageController =
-                                      StreamController<String?>.broadcast();
+                                      StreamController<String?>();
                                 }
                                 PermissionStatus permission =
                                     await Permission.storage.request();
                                 if (permission.isGranted) {
-                                  _onPlayPause();
+                                  // _onPlayPause();
                                   if (Platform.isIOS) {
                                     String? path =
                                         await _betterPlayerController!
                                             .videoPlayerController
-                                            ?.takeScreenshot();
+                                            ?.takeScreenshot(
+                                                _betterPlayerController!
+                                                    .videoPlayerController!
+                                                    .textureId);
                                     _betterPlayerController!.screenImagePath =
                                         path;
                                     screenImageController.sink.add(path);

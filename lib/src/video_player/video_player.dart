@@ -412,8 +412,8 @@ class VideoPlayerController extends ValueNotifier<VideoPlayerValue> {
   }
 
   ///  屏幕截图
-  Future<String?> takeScreenshot() async {
-    String? path = await VideoPlayerPlatform.instance.takeScreenshot();
+  Future<String?> takeScreenshot(int? textureId) async {
+    String? path = await VideoPlayerPlatform.instance.takeScreenshot(textureId);
     return path;
   }
 
