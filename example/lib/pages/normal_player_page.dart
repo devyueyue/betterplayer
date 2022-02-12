@@ -39,7 +39,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       BetterPlayerDataSourceType.network,
       // Constants.elephantDreamVideoUrl,
       // Constants.exampleResolutionsUrls['LOW']!,
-      'https://v.botaoyouxue.com/82fb1a479815417dba2a21baa0522141/video/dc248ec239014579ad59d7b1257264e3-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1644564299-2a5adf00403e4c7089e32e9c84180f39-0-209fcd2539e4da19c2f5c0472fb6681a&MtsHlsUriToken=1644567899_00_6b68329c2d37f90d8621',
+      'https://v.zhijisx.net/b3bbbfb378fe434991ab24891e4f9c83/video/6cc35d32d9d84f249dd4e9fb62884517-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1644656611-0afded11848e42ee9ebd4a2e2e484a81-0-6e7bb92cb8d3a7b7ee42f4a52ac867e8&MtsHlsUriToken=1644660211_00_5841fc183bdccf19828a',
       liveStream: false,
       useAsmsSubtitles: true,
       // resolutions: {
@@ -73,11 +73,17 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     _betterPlayerController.setBetterPlayerControlsConfiguration(
         betterPlayerControlsConfiguration);
     _betterPlayerController.addEventsListener((data) {
-      print(
-          '--------hhhy---listener==${data}-----path==${_betterPlayerController.screenImagePath}');
+      // print(
+      //     '--------hhhy---listener==${data}-----path==${_betterPlayerController.screenImagePath}');
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _betterPlayerController.dispose();
   }
 
   @override

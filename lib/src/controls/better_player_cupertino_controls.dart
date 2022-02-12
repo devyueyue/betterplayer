@@ -86,7 +86,8 @@ class _BetterPlayerCupertinoControlsState
   final courseButtonController = StreamController<bool>();
   Stream<bool> get courseStream => courseButtonController.stream;
 
-  StreamController<String?> screenImageController = StreamController<String?>();
+  ///  todo  流暂时不关闭
+  final screenImageController = StreamController<String?>();
   Stream<String?> get screenImageStream => screenImageController.stream;
   int fontSelectIndex = -1;
 
@@ -397,7 +398,6 @@ class _BetterPlayerCupertinoControlsState
     _initTimer?.cancel();
     _controlsVisibilityStreamSubscription?.cancel();
     courseButtonController.close();
-    screenImageController.close();
   }
 
   @override
@@ -753,17 +753,16 @@ class _BetterPlayerCupertinoControlsState
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () async {
-                                if (screenImageController.isClosed) {
-                                  screenImageController =
-                                      StreamController<String?>();
-                                }
                                 PermissionStatus permission =
                                     await Permission.storage.request();
                                 if (permission.isGranted) {
                                   if (Platform.isIOS) {
                                     String path = await _betterPlayerController!
                                             .videoPlayerController
-                                            ?.takeScreenshot() ??
+                                            ?.takeScreenshot(
+                                                _betterPlayerController!
+                                                    .videoPlayerController!
+                                                    .textureId) ??
                                         '';
                                     if (path.isNotEmpty &&
                                         (_betterPlayerController!.isPlaying() ??
@@ -778,7 +777,7 @@ class _BetterPlayerCupertinoControlsState
                                   } else {
                                     _hideTimer?.cancel();
                                     changePlayerControlsNotVisible(true);
-                                    Future.delayed(Duration(milliseconds: 100),
+                                    Future.delayed(Duration(milliseconds: 400),
                                         () async {
                                       String path = await NativeScreenshot
                                               .takeScreenshot() ??
