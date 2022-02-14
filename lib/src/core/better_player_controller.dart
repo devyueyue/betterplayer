@@ -563,12 +563,24 @@ class BetterPlayerController {
       if (_isAutomaticPlayPauseHandled()) {
         if (_appLifecycleState == AppLifecycleState.resumed &&
             _isPlayerVisible) {
-          await play();
+          if (Platform.isIOS) {
+            Future.delayed(Duration(milliseconds: 500), () async {
+              await play();
+            });
+          } else {
+            await play();
+          }
         } else {
           _wasPlayingBeforePause = true;
         }
       } else {
-        await play();
+        if (Platform.isIOS) {
+          Future.delayed(Duration(milliseconds: 500), () async {
+            await play();
+          });
+        } else {
+          await play();
+        }
       }
     } else {
       if (fullScreenByDefault) {

@@ -20,6 +20,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
             aspectRatio: 16 / 9,
             fit: BoxFit.contain,
             fullScreenByDefault: false,
+            autoPlay: true,
             deviceOrientationsAfterFullScreen: [
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown
@@ -39,7 +40,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       BetterPlayerDataSourceType.network,
       // Constants.elephantDreamVideoUrl,
       // Constants.exampleResolutionsUrls['LOW']!,
-      'https://v.zhijisx.net/b3bbbfb378fe434991ab24891e4f9c83/video/6cc35d32d9d84f249dd4e9fb62884517-4092e3279e37623b6a9903b86b1452f6-video-ld-encrypt-stream.m3u8?auth_key=1644656611-0afded11848e42ee9ebd4a2e2e484a81-0-6e7bb92cb8d3a7b7ee42f4a52ac867e8&MtsHlsUriToken=1644660211_00_5841fc183bdccf19828a',
+      // Constants.elephantDreamStreamUrl,
+      'https://v.botaoyouxue.com/82fb1a479815417dba2a21baa0522141/video/dc248ec239014579ad59d7b1257264e3-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1644807317-4a2fb1b717d24f769642aa4da95da0b7-0-3df8fd9ca45c72b2bd76f120d4eb866e&MtsHlsUriToken=1644810917_00_f8b0968848706cc43095',
       liveStream: false,
       useAsmsSubtitles: true,
       // resolutions: {
