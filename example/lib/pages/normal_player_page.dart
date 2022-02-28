@@ -1,7 +1,10 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:native_screenshot/native_screenshot.dart';
+
+// import 'package:native_screenshot/native_screenshot.dart';
+
+import '../constants.dart';
 
 class NormalPlayerPage extends StatefulWidget {
   @override
@@ -39,9 +42,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       // Constants.elephantDreamVideoUrl,
-      // Constants.exampleResolutionsUrls['LOW']!,
+      Constants.exampleResolutionsUrls['LOW']!,
       // Constants.elephantDreamStreamUrl,
-      'https://v.botaoyouxue.com/82fb1a479815417dba2a21baa0522141/video/dc248ec239014579ad59d7b1257264e3-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1644807317-4a2fb1b717d24f769642aa4da95da0b7-0-3df8fd9ca45c72b2bd76f120d4eb866e&MtsHlsUriToken=1644810917_00_f8b0968848706cc43095',
+      // 'https://v.botaoyouxue.com/82fb1a479815417dba2a21baa0522141/video/dc248ec239014579ad59d7b1257264e3-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1644807317-4a2fb1b717d24f769642aa4da95da0b7-0-3df8fd9ca45c72b2bd76f120d4eb866e&MtsHlsUriToken=1644810917_00_f8b0968848706cc43095',
       liveStream: false,
       useAsmsSubtitles: true,
       // resolutions: {
@@ -111,8 +114,8 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
           ),
           GestureDetector(
             onTap: () async {
-              String path = await NativeScreenshot.takeScreenshot() ?? '';
-              print('-----hhyyy-截图成功---${path}');
+              // String path = await NativeScreenshot.takeScreenshot() ?? '';
+              // print('-----hhyyy-截图成功---${path}');
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

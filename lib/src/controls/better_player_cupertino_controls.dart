@@ -14,9 +14,9 @@ import 'package:better_player/src/subtitles/better_player_subtitles_source_type.
 import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:native_screenshot/native_screenshot.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:native_screenshot/native_screenshot.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class BetterPlayerCupertinoControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
@@ -753,51 +753,51 @@ class _BetterPlayerCupertinoControlsState
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () async {
-                                PermissionStatus permission =
-                                    await Permission.storage.request();
-                                if (permission.isGranted) {
-                                  if (Platform.isIOS) {
-                                    String path = await _betterPlayerController!
-                                            .videoPlayerController
-                                            ?.takeScreenshot(
-                                                _betterPlayerController!
-                                                    .videoPlayerController!
-                                                    .textureId) ??
-                                        '';
-                                    if (path.isNotEmpty &&
-                                        (_betterPlayerController!.isPlaying() ??
-                                            false)) {
-                                      _onPlayPause();
-                                    }
-                                    _betterPlayerController!.screenImagePath =
-                                        path;
-                                    screenImageController.sink.add(path);
-                                    print(
-                                        '-----player---点击了截图===value==${path}');
-                                  } else {
-                                    _hideTimer?.cancel();
-                                    changePlayerControlsNotVisible(true);
-                                    Future.delayed(Duration(milliseconds: 400),
-                                        () async {
-                                      String path = await NativeScreenshot
-                                              .takeScreenshot() ??
-                                          '';
-                                      if (path.isNotEmpty &&
-                                          (_betterPlayerController!
-                                                  .isPlaying() ??
-                                              false)) {
-                                        _onPlayPause();
-                                      }
-                                      _betterPlayerController!.screenImagePath =
-                                          path;
-                                      screenImageController.sink.add(path);
-                                      print(
-                                          '-----player---点击了截图--path==${path}');
-                                    });
-                                  }
-                                } else {
-                                  Fluttertoast.showToast(msg: '请在设置中允许保存到相册');
-                                }
+                                // PermissionStatus permission =
+                                //     await Permission.storage.request();
+                                // if (permission.isGranted) {
+                                //   if (Platform.isIOS) {
+                                //     String path = await _betterPlayerController!
+                                //             .videoPlayerController
+                                //             ?.takeScreenshot(
+                                //                 _betterPlayerController!
+                                //                     .videoPlayerController!
+                                //                     .textureId) ??
+                                //         '';
+                                //     if (path.isNotEmpty &&
+                                //         (_betterPlayerController!.isPlaying() ??
+                                //             false)) {
+                                //       _onPlayPause();
+                                //     }
+                                //     _betterPlayerController!.screenImagePath =
+                                //         path;
+                                //     screenImageController.sink.add(path);
+                                //     print(
+                                //         '-----player---点击了截图===value==${path}');
+                                //   } else {
+                                //     _hideTimer?.cancel();
+                                //     changePlayerControlsNotVisible(true);
+                                //     Future.delayed(Duration(milliseconds: 400),
+                                //         () async {
+                                //       String path = await NativeScreenshot
+                                //               .takeScreenshot() ??
+                                //           '';
+                                //       if (path.isNotEmpty &&
+                                //           (_betterPlayerController!
+                                //                   .isPlaying() ??
+                                //               false)) {
+                                //         _onPlayPause();
+                                //       }
+                                //       _betterPlayerController!.screenImagePath =
+                                //           path;
+                                //       screenImageController.sink.add(path);
+                                //       print(
+                                //           '-----player---点击了截图--path==${path}');
+                                //     });
+                                //   }
+                                // } else {
+                                //   Fluttertoast.showToast(msg: '请在设置中允许保存到相册');
+                                // }
                               },
                               child: Container(
                                 padding: EdgeInsets.all(8),
