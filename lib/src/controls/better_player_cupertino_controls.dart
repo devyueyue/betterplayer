@@ -799,8 +799,15 @@ class _BetterPlayerCupertinoControlsState
                                   Fluttertoast.showToast(msg: '请在设置中允许保存到相册');
                                 }
                               },
-                              child: Padding(
+                              child: Container(
                                 padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    gradient: RadialGradient(
+                                  colors: [
+                                    Color(0xff000000).withOpacity(0.1),
+                                    Color(0xff000000).withOpacity(0)
+                                  ],
+                                )),
                                 child: Icon(
                                   Icons.camera_alt_outlined,
                                   size: 20,
@@ -814,8 +821,15 @@ class _BetterPlayerCupertinoControlsState
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {},
-                              child: Padding(
+                              child: Container(
                                 padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    gradient: RadialGradient(
+                                  colors: [
+                                    Color(0xff000000).withOpacity(0.1),
+                                    Color(0xff000000).withOpacity(0)
+                                  ],
+                                )),
                                 child: Icon(
                                   Icons.star_border,
                                   size: 22,
