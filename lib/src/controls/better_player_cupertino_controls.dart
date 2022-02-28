@@ -815,28 +815,28 @@ class _BetterPlayerCupertinoControlsState
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {},
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    gradient: RadialGradient(
-                                  colors: [
-                                    Color(0xff000000).withOpacity(0.1),
-                                    Color(0xff000000).withOpacity(0)
-                                  ],
-                                )),
-                                child: Icon(
-                                  Icons.star_border,
-                                  size: 22,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
+                            // SizedBox(
+                            //   height: 30,
+                            // ),
+                            // GestureDetector(
+                            //   behavior: HitTestBehavior.opaque,
+                            //   onTap: () {},
+                            //   child: Container(
+                            //     padding: EdgeInsets.all(8),
+                            //     decoration: BoxDecoration(
+                            //         gradient: RadialGradient(
+                            //       colors: [
+                            //         Color(0xff000000).withOpacity(0.1),
+                            //         Color(0xff000000).withOpacity(0)
+                            //       ],
+                            //     )),
+                            //     child: Icon(
+                            //       Icons.star_border,
+                            //       size: 22,
+                            //       color: Colors.white,
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ),
                       ),
