@@ -976,7 +976,13 @@ class BetterPlayerController {
     await setupDataSource(betterPlayerDataSource!.copyWith(url: url));
     seekTo(position!);
     if (wasPlayingBeforeChange) {
-      play();
+      if (Platform.isIOS) {
+        Future.delayed(Duration(milliseconds: 500), () async {
+          play();
+        });
+      } else {
+        play();
+      }
     }
     _postEvent(BetterPlayerEvent(
       BetterPlayerEventType.changedResolution,
