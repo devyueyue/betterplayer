@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:native_screenshot/native_screenshot.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:screen_brightness/screen_brightness.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 class BetterPlayerCupertinoControls extends StatefulWidget {
   ///Callback used to send information if player bar is hidden or not
@@ -437,9 +439,94 @@ class _BetterPlayerCupertinoControlsState
           BetterPlayerMultipleGestureDetector.of(context)!.onLongPress?.call();
         }
       },
+      onVerticalDragStart: _onVerticalDragStart,
+      onVerticalDragUpdate: _onVerticalDragUpdate,
+      onVerticalDragEnd: _onVerticalDragEnd,
       child:
           AbsorbPointer(absorbing: controlsNotVisible, child: controlsColumn),
     );
+  }
+
+  String verticalDragArea = 'left';
+  Offset startPosition = Offset(0, 0); // 起始位置
+  double movePan = 0; // 偏移量累计总和
+  double layoutWidth = 0; // 组件宽度
+  double layoutHeight = 0; // 组件高度
+  double brightness = 0.0; //亮度
+  double volumeness = 0.0; //音量
+
+  void _onVerticalDragStart(DragStartDetails details) async {
+    if (details.localPosition.dx <= MediaQuery.of(context).size.width / 2) {
+      verticalDragArea = 'left';
+    } else {
+      verticalDragArea = 'right';
+    }
+    print('垂直拖动开始 =====${details.localPosition}----value=${verticalDragArea}');
+    _reset(context);
+    startPosition = details.globalPosition;
+
+    if (startPosition.dx < (layoutWidth / 2)) {
+      /// 左边触摸
+      brightness = await ScreenBrightness().current;
+    } else {
+      ///右边触摸
+      volumeness = await VolumeController().getVolume();
+    }
+  }
+
+  void _onVerticalDragUpdate(DragUpdateDetails details) async {
+    /// 累计计算偏移量(下滑减少百分比，上滑增加百分比)
+    movePan += (-details.delta.dy);
+
+    if (startPosition.dx < (layoutWidth / 2)) {
+      /// 左边触摸
+      await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
+      setState(() {
+        print('---------亮度：${(_setBrightnessValue() * 100).toInt()}%');
+      });
+    } else {
+      /// 右边触摸
+      VolumeController().setVolume(_setVolumeValue());
+    }
+  }
+
+  void _onVerticalDragEnd(DragEndDetails details) async {
+    if (startPosition.dx < (layoutWidth / 2)) {
+      await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
+      // 左边触摸
+      setState(() {});
+    } else {}
+  }
+
+  double _setBrightnessValue() {
+    // 亮度百分控制
+    double value =
+        double.parse((movePan / layoutHeight + brightness).toStringAsFixed(2));
+    if (value >= 1.00) {
+      value = 1.00;
+    } else if (value <= 0.00) {
+      value = 0.00;
+    }
+    return value;
+  }
+
+  double _setVolumeValue({int num = 1}) {
+    // 声音亮度百分控制
+    double value = double.parse(
+        (movePan / layoutHeight + volumeness).toStringAsFixed(num));
+    if (value >= 1.0) {
+      value = 1.0;
+    } else if (value <= 0.0) {
+      value = 0.0;
+    }
+    return value;
+  }
+
+  void _reset(BuildContext context) async {
+    startPosition = Offset(0, 0);
+    movePan = 0;
+    layoutHeight = context.size?.height ?? 0;
+    layoutWidth = context.size?.width ?? 0;
   }
 
   @override

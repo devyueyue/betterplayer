@@ -1,4 +1,5 @@
 import 'package:better_player/better_player.dart';
+import 'package:better_player_example/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -38,9 +39,9 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       // Constants.elephantDreamVideoUrl,
-      // Constants.exampleResolutionsUrls['LOW']!,
+      Constants.exampleResolutionsUrls['LOW']!,
       // Constants.elephantDreamStreamUrl,
-      'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1646102681-1edd1270093b42df846e4c24ba906bb4-0-82b8db5d6d85d2f220a3b599e6c11859&MtsHlsUriToken=1646106281_00_7e3dea54d810e6bc5c40',
+      // 'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1646102681-1edd1270093b42df846e4c24ba906bb4-0-82b8db5d6d85d2f220a3b599e6c11859&MtsHlsUriToken=1646106281_00_7e3dea54d810e6bc5c40',
       liveStream: false,
       useAsmsSubtitles: true,
       resolutions: {
