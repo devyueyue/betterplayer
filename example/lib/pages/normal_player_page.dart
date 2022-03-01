@@ -40,14 +40,14 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       // Constants.elephantDreamVideoUrl,
       // Constants.exampleResolutionsUrls['LOW']!,
       // Constants.elephantDreamStreamUrl,
-      'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1646100130-04b0947ceb734279b75cf68c81eab4e2-0-4187cfdc290056bf6a442554f3ad88b2&MtsHlsUriToken=1646103729_00_f40874c3acdf9aadbd2d',
+      'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1646102681-1edd1270093b42df846e4c24ba906bb4-0-82b8db5d6d85d2f220a3b599e6c11859&MtsHlsUriToken=1646106281_00_7e3dea54d810e6bc5c40',
       liveStream: false,
       useAsmsSubtitles: true,
       resolutions: {
         "标清":
-            'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1646100130-04b0947ceb734279b75cf68c81eab4e2-0-4187cfdc290056bf6a442554f3ad88b2&MtsHlsUriToken=1646103729_00_f40874c3acdf9aadbd2d',
+            'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-b8bf685e4b7b331e6483a3d3f6aa52a8-video-ld-encrypt-stream.m3u8?auth_key=1646102681-1edd1270093b42df846e4c24ba906bb4-0-82b8db5d6d85d2f220a3b599e6c11859&MtsHlsUriToken=1646106281_00_7e3dea54d810e6bc5c40',
         "高清":
-            'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-6f435e42b8c5191b63ec3c0c9b8c004d-video-sd-encrypt-stream.m3u8?auth_key=1646100130-c949a1e2b8f8410da46c67e79e7f9bf5-0-bae3a6b5ce6672b733d25674e052d61f&MtsHlsUriToken=1646103729_00_f40874c3acdf9aadbd2d',
+            'https://v.botaoyouxue.com/050dc5db8f0549f992b337117c5ce205/video/5c7e7dad5a384306aa1b6db274ea6896-6f435e42b8c5191b63ec3c0c9b8c004d-video-sd-encrypt-stream.m3u8?auth_key=1646102681-78e58c78c6984ca795850a99b3d9abd2-0-b955977d866da805f6c0ae191d20389d&MtsHlsUriToken=1646106281_00_7e3dea54d810e6bc5c40',
         "超清":
             'https://v.zhijisx.net/1d720c2412ad4b308cdaaf8ee5582443/video/f6d32dedf18046dda9dfc2ed8bfae747-ac001f3a81aa49068b6fee3c8bc0c655-video-hd-encrypt-stream.m3u8?auth_key=1642595465-7f0bfa66312845fa9f3645d590dcd531-0-a28c489c4c938d8789198befa5973c7d&MtsHlsUriToken=1642599065_00_241247ff484f71a8a4d4'
       },
