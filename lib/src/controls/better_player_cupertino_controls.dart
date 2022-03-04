@@ -14,8 +14,9 @@ import 'package:better_player/src/subtitles/better_player_subtitles_source_type.
 import 'package:better_player/src/video_player/video_player.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_screenshot/flutter_native_screenshot.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:native_screenshot/native_screenshot.dart';
+// import 'package:native_screenshot/native_screenshot.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BetterPlayerCupertinoControls extends StatefulWidget {
@@ -775,9 +776,10 @@ class _BetterPlayerCupertinoControlsState
                                     changePlayerControlsNotVisible(true);
                                     Future.delayed(Duration(milliseconds: 400),
                                         () async {
-                                      String path = await NativeScreenshot
-                                              .takeScreenshot() ??
-                                          '';
+                                      String path =
+                                          await FlutterNativeScreenshot
+                                                  .takeScreenshot() ??
+                                              '';
                                       if (path.isNotEmpty &&
                                           (_betterPlayerController!
                                                   .isPlaying() ??

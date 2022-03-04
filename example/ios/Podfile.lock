@@ -30,7 +30,11 @@ PODS:
   - PINCache/Core (3.0.3):
     - PINOperation (~> 1.2.1)
   - PINOperation (1.2.1)
+  - screen_brightness_ios (0.0.5):
+    - Flutter
   - Toast (4.0.0)
+  - volume_controller (0.0.1):
+    - Flutter
   - wakelock (0.0.1):
     - Flutter
 
@@ -41,6 +45,8 @@ DEPENDENCIES:
   - native_screenshot (from `.symlinks/plugins/native_screenshot/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - screen_brightness_ios (from `.symlinks/plugins/screen_brightness_ios/ios`)
+  - volume_controller (from `.symlinks/plugins/volume_controller/ios`)
   - wakelock (from `.symlinks/plugins/wakelock/ios`)
 
 SPEC REPOS:
@@ -65,6 +71,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_ios/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  screen_brightness_ios:
+    :path: ".symlinks/plugins/screen_brightness_ios/ios"
+  volume_controller:
+    :path: ".symlinks/plugins/volume_controller/ios"
   wakelock:
     :path: ".symlinks/plugins/wakelock/ios"
 
@@ -80,7 +90,9 @@ SPEC CHECKSUMS:
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
+  screen_brightness_ios: dd110ebfe9602013ea863d59770a9192ebbb7ac7
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  volume_controller: 531ddf792994285c9b17f9d8a7e4dcdd29b3eae9
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
