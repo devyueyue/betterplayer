@@ -103,6 +103,12 @@ class _BetterPlayerCupertinoControlsState
   final String CHANGE_BRIGHTNESS = 'change_brightness';
   final String CHANGE_VOLUME = 'change_volume';
 
+  /// 手势拖动播放进度
+  bool _controllerWasPlaying = false;
+  bool shouldPlayAfterDragEnd = false;
+  Duration? lastSeek;
+  Timer? _updateBlockTimer;
+
   @override
   void initState() {
     super.initState();
@@ -484,9 +490,93 @@ class _BetterPlayerCupertinoControlsState
       onVerticalDragStart: _onVerticalDragStart,
       onVerticalDragUpdate: _onVerticalDragUpdate,
       onVerticalDragEnd: _onVerticalDragEnd,
+      onHorizontalDragStart: handleHorizontalDragStart,
+      onHorizontalDragUpdate: handleHorizontalDragUpdate,
+      onHorizontalDragEnd: handleHorizontalDragEnd,
       child:
           AbsorbPointer(absorbing: controlsNotVisible, child: controlsColumn),
     );
+  }
+
+  /// 拖动开始
+  void handleHorizontalDragStart(DragStartDetails playerValue) async {
+    final bool enableProgressBarDrag = betterPlayerController!
+        .betterPlayerControlsConfiguration.enableProgressBarDrag;
+    if (!_controller!.value.initialized || !enableProgressBarDrag) {
+      return;
+    }
+    changePlayerControlsNotVisible(false);
+    _controllerWasPlaying = _controller!.value.isPlaying;
+    if (_controllerWasPlaying) {
+      _controller!.pause();
+    }
+
+    _hideTimer?.cancel();
+  }
+
+  /// 更新拖动
+  void handleHorizontalDragUpdate(DragUpdateDetails details) {
+    final bool enableProgressBarDrag = betterPlayerController!
+        .betterPlayerControlsConfiguration.enableProgressBarDrag;
+    if (!_controller!.value.initialized || !enableProgressBarDrag) {
+      return;
+    }
+    seekToRelativePosition(details.globalPosition);
+  }
+
+  void seekToRelativePosition(Offset globalPosition) async {
+    final RenderObject? renderObject = context.findRenderObject();
+    if (renderObject != null) {
+      final box = renderObject as RenderBox;
+      final Offset tapPos = box.globalToLocal(globalPosition);
+      final double relative = tapPos.dx / box.size.width;
+      if (relative > 0) {
+        final Duration position = _controller!.value.duration! * relative;
+        lastSeek = position;
+        await betterPlayerController!.seekTo(position);
+        onFinishedLastSeek();
+        if (relative >= 1) {
+          lastSeek = _controller!.value.duration;
+          await betterPlayerController!.seekTo(_controller!.value.duration!);
+          onFinishedLastSeek();
+        }
+      }
+    }
+  }
+
+  void onFinishedLastSeek() {
+    if (shouldPlayAfterDragEnd) {
+      shouldPlayAfterDragEnd = false;
+      betterPlayerController?.play();
+    }
+  }
+
+  /// 拖动结束
+  void handleHorizontalDragEnd(DragEndDetails playerValue) async {
+    final bool enableProgressBarDrag = betterPlayerController!
+        .betterPlayerControlsConfiguration.enableProgressBarDrag;
+    if (!enableProgressBarDrag) {
+      return;
+    }
+    if (_controllerWasPlaying) {
+      betterPlayerController?.play();
+      shouldPlayAfterDragEnd = true;
+    }
+    _setupUpdateBlockTimer();
+
+    _startHideTimer();
+  }
+
+  void _setupUpdateBlockTimer() {
+    _updateBlockTimer = Timer(const Duration(milliseconds: 1000), () {
+      lastSeek = null;
+      _cancelUpdateBlockTimer();
+    });
+  }
+
+  void _cancelUpdateBlockTimer() {
+    _updateBlockTimer?.cancel();
+    _updateBlockTimer = null;
   }
 
   String verticalDragArea = 'left';
