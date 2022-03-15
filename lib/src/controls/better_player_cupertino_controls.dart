@@ -515,33 +515,21 @@ class _BetterPlayerCupertinoControlsState
   }
 
   /// 更新拖动
-  void handleHorizontalDragUpdate(DragUpdateDetails details) {
+  void handleHorizontalDragUpdate(DragUpdateDetails details) async {
     final bool enableProgressBarDrag = betterPlayerController!
         .betterPlayerControlsConfiguration.enableProgressBarDrag;
     if (!_controller!.value.initialized || !enableProgressBarDrag) {
       return;
     }
-    seekToRelativePosition(details.globalPosition);
-  }
-
-  void seekToRelativePosition(Offset globalPosition) async {
-    final RenderObject? renderObject = context.findRenderObject();
-    if (renderObject != null) {
-      final box = renderObject as RenderBox;
-      final Offset tapPos = box.globalToLocal(globalPosition);
-      final double relative = tapPos.dx / box.size.width;
-      if (relative > 0) {
-        final Duration position = _controller!.value.duration! * relative;
-        lastSeek = position;
-        await betterPlayerController!.seekTo(position);
-        onFinishedLastSeek();
-        if (relative >= 1) {
-          lastSeek = _controller!.value.duration;
-          await betterPlayerController!.seekTo(_controller!.value.duration!);
-          onFinishedLastSeek();
-        }
-      }
+    int newTime =
+        (details.delta.dx).toInt() + _controller!.value.position.inSeconds;
+    if (newTime > _controller!.value.duration!.inSeconds) {
+      newTime = _controller!.value.duration!.inSeconds;
+    } else if (newTime < 0) {
+      newTime = 0;
     }
+    await betterPlayerController!.seekTo(Duration(seconds: newTime));
+    onFinishedLastSeek();
   }
 
   void onFinishedLastSeek() {
