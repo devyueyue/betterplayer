@@ -100,6 +100,9 @@ class _BetterPlayerCupertinoControlsState
   /// 设置分辨率
   // betterPlayerController!.setResolution(url);
 
+  final String CHANGE_BRIGHTNESS = 'change_brightness';
+  final String CHANGE_VOLUME = 'change_volume';
+
   @override
   void initState() {
     super.initState();
@@ -178,77 +181,115 @@ class _BetterPlayerCupertinoControlsState
                   String imageUrl = snapshot.data ?? '';
                   return imageUrl.isEmpty
                       ? SizedBox()
-                      : Container(
-                          color: Colors.black87,
-                          height: double.infinity,
-                          width: double.infinity,
-                          padding: EdgeInsets.fromLTRB(190, 30, 180, 40),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                  child: Stack(
+                      : imageUrl == CHANGE_BRIGHTNESS
+                          ? Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(3)),
+                                width: 174,
+                                height: 32,
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: Icon(
+                                        Icons.wb_sunny_rounded,
+                                        color: Colors.white,
+                                        size: 22,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: LinearProgressIndicator(
+                                        value: _setBrightnessValue(),
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Color(0xff3470DD)),
+                                        minHeight: 3,
+                                        backgroundColor:
+                                            Colors.white.withOpacity(0.4),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 12,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Container(
+                              color: Colors.black87,
+                              height: double.infinity,
+                              width: double.infinity,
+                              padding: EdgeInsets.fromLTRB(190, 30, 180, 40),
+                              child: Column(
                                 children: [
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                    child: Image.file(File(imageUrl)),
-                                  ),
-                                  Positioned(
-                                    top: 0,
-                                    right: 0,
-                                    child: GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () {
-                                        if (!(_betterPlayerController!
-                                                .isPlaying() ??
-                                            false)) {
-                                          _onPlayPause();
-                                        }
-                                        _betterPlayerController!
-                                            .screenImagePath = '';
-                                        screenImageController.sink.add('');
-                                      },
-                                      child: Container(
-                                        width: 24,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(180)),
-                                            color:
-                                                Colors.black.withOpacity(0.3)),
-                                        child: Icon(
-                                          Icons.close,
-                                          color: Colors.white,
+                                  Expanded(
+                                      child: Stack(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                        child: Image.file(File(imageUrl)),
+                                      ),
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onTap: () {
+                                            if (!(_betterPlayerController!
+                                                    .isPlaying() ??
+                                                false)) {
+                                              _onPlayPause();
+                                            }
+                                            _betterPlayerController!
+                                                .screenImagePath = '';
+                                            screenImageController.sink.add('');
+                                          },
+                                          child: Container(
+                                            width: 24,
+                                            height: 24,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(180)),
+                                                color: Colors.black
+                                                    .withOpacity(0.3)),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                         ),
+                                      )
+                                    ],
+                                  )),
+                                  GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () {
+                                      _onExpandCollapse();
+                                    },
+                                    child: Container(
+                                      height: 38,
+                                      width: 127,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(90)),
+                                        color: Colors.white.withOpacity(0.3),
+                                      ),
+                                      child: Text(
+                                        '截图写笔记',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 13, color: Colors.white),
                                       ),
                                     ),
                                   )
                                 ],
-                              )),
-                              GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  _onExpandCollapse();
-                                },
-                                child: Container(
-                                  height: 38,
-                                  width: 127,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(90)),
-                                    color: Colors.white.withOpacity(0.3),
-                                  ),
-                                  child: Text(
-                                    '截图写笔记',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.white),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
+                              ),
+                            );
                 })
           ],
         ));
@@ -482,6 +523,7 @@ class _BetterPlayerCupertinoControlsState
     if (startPosition.dx < (layoutWidth / 2)) {
       /// 左边触摸
       await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
+      screenImageController.sink.add(CHANGE_BRIGHTNESS);
       setState(() {
         print('---------亮度：${(_setBrightnessValue() * 100).toInt()}%');
       });
@@ -494,15 +536,17 @@ class _BetterPlayerCupertinoControlsState
   void _onVerticalDragEnd(DragEndDetails details) async {
     if (startPosition.dx < (layoutWidth / 2)) {
       await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
+      screenImageController.sink.add('');
       // 左边触摸
       setState(() {});
     } else {}
   }
 
+  /// 调节亮度
   double _setBrightnessValue() {
     // 亮度百分控制
-    double value =
-        double.parse((movePan / layoutHeight + brightness).toStringAsFixed(2));
+    double value = double.parse(
+        ((movePan * 1.4) / layoutHeight + brightness).toStringAsFixed(2));
     if (value >= 1.00) {
       value = 1.00;
     } else if (value <= 0.00) {
@@ -511,10 +555,11 @@ class _BetterPlayerCupertinoControlsState
     return value;
   }
 
+  /// 调节声音
   double _setVolumeValue({int num = 1}) {
     // 声音亮度百分控制
     double value = double.parse(
-        (movePan / layoutHeight + volumeness).toStringAsFixed(num));
+        ((movePan * 1.4) / layoutHeight + volumeness).toStringAsFixed(num));
     if (value >= 1.0) {
       value = 1.0;
     } else if (value <= 0.0) {
