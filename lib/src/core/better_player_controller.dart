@@ -564,7 +564,7 @@ class BetterPlayerController {
         if (_appLifecycleState == AppLifecycleState.resumed &&
             _isPlayerVisible) {
           if (Platform.isIOS) {
-            Future.delayed(Duration(milliseconds: 1500), () async {
+            Future.delayed(Duration(milliseconds: 1000), () async {
               await play();
             });
           } else {
