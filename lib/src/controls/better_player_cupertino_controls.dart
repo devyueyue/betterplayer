@@ -576,48 +576,55 @@ class _BetterPlayerCupertinoControlsState
   double volumeness = 0.0; //音量
 
   void _onVerticalDragStart(DragStartDetails details) async {
-    if (details.localPosition.dx <= MediaQuery.of(context).size.width / 2) {
-      verticalDragArea = 'left';
-    } else {
-      verticalDragArea = 'right';
-    }
-    print('垂直拖动开始 =====${details.localPosition}----value=${verticalDragArea}');
-    _reset(context);
-    startPosition = details.globalPosition;
+    if (_betterPlayerController!.isFullScreen) {
+      if (details.localPosition.dx <= MediaQuery.of(context).size.width / 2) {
+        verticalDragArea = 'left';
+      } else {
+        verticalDragArea = 'right';
+      }
+      print(
+          '垂直拖动开始 =====${details.localPosition}----value=${verticalDragArea}');
+      _reset(context);
+      startPosition = details.globalPosition;
 
-    if (startPosition.dx < (layoutWidth / 2)) {
-      /// 左边触摸
-      brightness = await ScreenBrightness().current;
-    } else {
-      ///右边触摸
-      volumeness = await VolumeController().getVolume();
+      if (startPosition.dx < (layoutWidth / 2)) {
+        /// 左边触摸
+        brightness = await ScreenBrightness().current;
+      } else {
+        ///右边触摸
+        volumeness = await VolumeController().getVolume();
+      }
     }
   }
 
   void _onVerticalDragUpdate(DragUpdateDetails details) async {
-    /// 累计计算偏移量(下滑减少百分比，上滑增加百分比)
-    movePan += (-details.delta.dy);
+    if (_betterPlayerController!.isFullScreen) {
+      /// 累计计算偏移量(下滑减少百分比，上滑增加百分比)
+      movePan += (-details.delta.dy);
 
-    if (startPosition.dx < (layoutWidth / 2)) {
-      /// 左边触摸
-      await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
-      screenImageController.sink.add(CHANGE_BRIGHTNESS);
-      setState(() {
-        print('---------亮度：${(_setBrightnessValue() * 100).toInt()}%');
-      });
-    } else {
-      /// 右边触摸
-      VolumeController().setVolume(_setVolumeValue());
+      if (startPosition.dx < (layoutWidth / 2)) {
+        /// 左边触摸
+        await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
+        screenImageController.sink.add(CHANGE_BRIGHTNESS);
+        setState(() {
+          print('---------亮度：${(_setBrightnessValue() * 100).toInt()}%');
+        });
+      } else {
+        /// 右边触摸
+        VolumeController().setVolume(_setVolumeValue());
+      }
     }
   }
 
   void _onVerticalDragEnd(DragEndDetails details) async {
-    if (startPosition.dx < (layoutWidth / 2)) {
-      await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
-      screenImageController.sink.add('');
-      // 左边触摸
-      setState(() {});
-    } else {}
+    if (_betterPlayerController!.isFullScreen) {
+      if (startPosition.dx < (layoutWidth / 2)) {
+        await ScreenBrightness().setScreenBrightness(_setBrightnessValue());
+        screenImageController.sink.add('');
+        // 左边触摸
+        setState(() {});
+      }
+    }
   }
 
   /// 调节亮度
