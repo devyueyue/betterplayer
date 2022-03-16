@@ -575,7 +575,7 @@ class BetterPlayerController {
         }
       } else {
         if (Platform.isIOS) {
-          Future.delayed(Duration(milliseconds: 500), () async {
+          Future.delayed(Duration(milliseconds: 1000), () async {
             await play();
           });
         } else {
@@ -977,7 +977,7 @@ class BetterPlayerController {
     seekTo(position!);
     if (wasPlayingBeforeChange) {
       if (Platform.isIOS) {
-        Future.delayed(Duration(milliseconds: 500), () async {
+        Future.delayed(Duration(milliseconds: 700), () async {
           play();
         });
       } else {
