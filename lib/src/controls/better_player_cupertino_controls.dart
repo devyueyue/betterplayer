@@ -173,132 +173,140 @@ class _BetterPlayerCupertinoControlsState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: null,
-        key: _scaffoldKey,
-        backgroundColor: Colors.transparent,
-        drawer: _betterPlayerController!.isFullScreen ? _buildDrawer() : null,
-        body: Stack(
-          children: [
-            buildLTRDirectionality(_buildMainWidget()),
-            StreamBuilder<String?>(
-                stream: screenImageStream,
-                builder: (context, snapshot) {
-                  String imageUrl = snapshot.data ?? '';
-                  return imageUrl.isEmpty
-                      ? SizedBox()
-                      : imageUrl == CHANGE_BRIGHTNESS
-                          ? Center(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.8),
-                                    borderRadius: BorderRadius.circular(3)),
-                                width: 174,
-                                height: 32,
-                                child: Row(
+    return GestureDetector(
+      onHorizontalDragStart: handleHorizontalDragStart,
+      onHorizontalDragUpdate: handleHorizontalDragUpdate,
+      onHorizontalDragEnd: handleHorizontalDragEnd,
+      child: Scaffold(
+          appBar: null,
+          key: _scaffoldKey,
+          backgroundColor: Colors.transparent,
+          drawer: _betterPlayerController!.isFullScreen ? _buildDrawer() : null,
+          body: Stack(
+            children: [
+              buildLTRDirectionality(_buildMainWidget()),
+              StreamBuilder<String?>(
+                  stream: screenImageStream,
+                  builder: (context, snapshot) {
+                    String imageUrl = snapshot.data ?? '';
+                    return imageUrl.isEmpty
+                        ? SizedBox()
+                        : imageUrl == CHANGE_BRIGHTNESS
+                            ? Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(3)),
+                                  width: 174,
+                                  height: 32,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: Icon(
+                                          Icons.wb_sunny_rounded,
+                                          color: Colors.white,
+                                          size: 22,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: LinearProgressIndicator(
+                                          value: _setBrightnessValue(),
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Color(0xff3470DD)),
+                                          minHeight: 3,
+                                          backgroundColor:
+                                              Colors.white.withOpacity(0.4),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 12,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                color: Colors.black87,
+                                height: double.infinity,
+                                width: double.infinity,
+                                padding: EdgeInsets.fromLTRB(190, 30, 180, 40),
+                                child: Column(
                                   children: [
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      child: Icon(
-                                        Icons.wb_sunny_rounded,
-                                        color: Colors.white,
-                                        size: 22,
-                                      ),
-                                    ),
                                     Expanded(
-                                      child: LinearProgressIndicator(
-                                        value: _setBrightnessValue(),
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                Color(0xff3470DD)),
-                                        minHeight: 3,
-                                        backgroundColor:
-                                            Colors.white.withOpacity(0.4),
+                                        child: Stack(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                          child: Image.file(File(imageUrl)),
+                                        ),
+                                        Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: GestureDetector(
+                                            behavior: HitTestBehavior.opaque,
+                                            onTap: () {
+                                              if (!(_betterPlayerController!
+                                                      .isPlaying() ??
+                                                  false)) {
+                                                _onPlayPause();
+                                              }
+                                              _betterPlayerController!
+                                                  .screenImagePath = '';
+                                              screenImageController.sink
+                                                  .add('');
+                                            },
+                                            child: Container(
+                                              width: 24,
+                                              height: 24,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(180)),
+                                                  color: Colors.black
+                                                      .withOpacity(0.3)),
+                                              child: Icon(
+                                                Icons.close,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                                    GestureDetector(
+                                      behavior: HitTestBehavior.opaque,
+                                      onTap: () {
+                                        _onExpandCollapse();
+                                      },
+                                      child: Container(
+                                        height: 38,
+                                        width: 127,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(90)),
+                                          color: Colors.white.withOpacity(0.3),
+                                        ),
+                                        child: Text(
+                                          '截图写笔记',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Colors.white),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 12,
                                     )
                                   ],
                                 ),
-                              ),
-                            )
-                          : Container(
-                              color: Colors.black87,
-                              height: double.infinity,
-                              width: double.infinity,
-                              padding: EdgeInsets.fromLTRB(190, 30, 180, 40),
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                      child: Stack(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                        child: Image.file(File(imageUrl)),
-                                      ),
-                                      Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: GestureDetector(
-                                          behavior: HitTestBehavior.opaque,
-                                          onTap: () {
-                                            if (!(_betterPlayerController!
-                                                    .isPlaying() ??
-                                                false)) {
-                                              _onPlayPause();
-                                            }
-                                            _betterPlayerController!
-                                                .screenImagePath = '';
-                                            screenImageController.sink.add('');
-                                          },
-                                          child: Container(
-                                            width: 24,
-                                            height: 24,
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(180)),
-                                                color: Colors.black
-                                                    .withOpacity(0.3)),
-                                            child: Icon(
-                                              Icons.close,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )),
-                                  GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () {
-                                      _onExpandCollapse();
-                                    },
-                                    child: Container(
-                                      height: 38,
-                                      width: 127,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(90)),
-                                        color: Colors.white.withOpacity(0.3),
-                                      ),
-                                      child: Text(
-                                        '截图写笔记',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 13, color: Colors.white),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                })
-          ],
-        ));
+                              );
+                  })
+            ],
+          )),
+    );
   }
 
   /// 设置按钮样式
