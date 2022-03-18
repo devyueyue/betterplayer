@@ -224,9 +224,9 @@ static inline CGFloat radiansToDegrees(CGFloat radians) {
             [asset.resourceLoader setDelegate:_loaderDelegate queue:streamQueue];
         }
         item = [AVPlayerItem playerItemWithAsset:asset];
-        NSDictionary *settings = @{(id)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
-        AVPlayerItemVideoOutput *videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:settings];
-        [item addOutput:videoOutput];
+        //NSDictionary *settings = @{(id)kCVPixelBufferPixelFormatTypeKey : [NSNumber numberWithInt:kCVPixelFormatType_32BGRA]};
+        //AVPlayerItemVideoOutput *videoOutput = [[AVPlayerItemVideoOutput alloc] initWithPixelBufferAttributes:settings];
+        //[item addOutput:videoOutput];
     }
 
     if (@available(iOS 10.0, *) && overriddenDuration > 0) {
