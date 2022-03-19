@@ -437,12 +437,12 @@ class _BetterPlayerCupertinoControlsState
   Widget _buildMainWidget() {
     _betterPlayerController = BetterPlayerController.of(context);
 
-    if (_latestValue?.hasError == true) {
-      return Container(
-        color: Colors.black,
-        child: _buildErrorWidget(),
-      );
-    }
+    // if (_latestValue?.hasError == true) {
+    //   return Container(
+    //     color: Colors.black,
+    //     child: _buildErrorWidget(),
+    //   );
+    // }
 
     _betterPlayerController = BetterPlayerController.of(context);
     _controller = _betterPlayerController!.videoPlayerController;
