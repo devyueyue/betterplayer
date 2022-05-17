@@ -92,6 +92,10 @@ class _BetterPlayerCupertinoControlsState
   ///  todo  流暂时不关闭
   final screenImageController = StreamController<String?>();
   Stream<String?> get screenImageStream => screenImageController.stream;
+
+  ///收藏流
+  final saveController = StreamController<bool?>();
+  Stream<bool?> get saveStream => saveController.stream;
   int fontSelectIndex = -1;
 
   ///  设置字幕
@@ -115,6 +119,7 @@ class _BetterPlayerCupertinoControlsState
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       Future.delayed(Duration(milliseconds: 100), () {
         setResolutionConfig(isInit: true);
+        saveController.sink.add(_betterPlayerController!.chapterIsSave);
       });
       setFontConfig(isInit: true);
     });
@@ -1041,30 +1046,44 @@ class _BetterPlayerCupertinoControlsState
                             SizedBox(
                               height: 30,
                             ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () {
-                                if (_betterPlayerController!.onCollect !=
-                                    null) {
-                                  _betterPlayerController!.onCollect!();
-                                }
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                    gradient: RadialGradient(
-                                  colors: [
-                                    Color(0xff000000).withOpacity(0.1),
-                                    Color(0xff000000).withOpacity(0)
-                                  ],
-                                )),
-                                child: Icon(
-                                  Icons.star_border,
-                                  size: 22,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
+                            StreamBuilder<bool?>(
+                                stream: saveStream,
+                                builder: (context, snapshot) {
+                                  bool isSave = snapshot.data ?? false;
+                                  return GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () {
+                                      if (!_betterPlayerController!
+                                          .saveBtnCanClick) {
+                                        return;
+                                      }
+                                      _betterPlayerController!.saveBtnCanClick =
+                                          false;
+                                      if (_betterPlayerController!.onCollect !=
+                                          null) {
+                                        _betterPlayerController!.onCollect!();
+                                      }
+                                      saveController.sink.add(!isSave);
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          gradient: RadialGradient(
+                                        colors: [
+                                          Color(0xff000000).withOpacity(0.1),
+                                          Color(0xff000000).withOpacity(0)
+                                        ],
+                                      )),
+                                      child: Icon(
+                                        Icons.star_border,
+                                        size: 22,
+                                        color: isSave
+                                            ? Color(0xffFFB600)
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  );
+                                })
                           ],
                         ),
                       ),

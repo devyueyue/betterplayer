@@ -26,6 +26,12 @@ class BetterPlayerController {
   /// 截屏图片地址
   String? screenImagePath;
 
+  ///小节是否收藏
+  bool chapterIsSave = false;
+
+  ///收藏按钮是否可以点击
+  bool saveBtnCanClick = true;
+
   ///General configuration used in controller instance.
   final BetterPlayerConfiguration betterPlayerConfiguration;
 
