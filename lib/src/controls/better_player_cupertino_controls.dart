@@ -119,7 +119,6 @@ class _BetterPlayerCupertinoControlsState
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       Future.delayed(Duration(milliseconds: 100), () {
         setResolutionConfig(isInit: true);
-        saveController.sink.add(_betterPlayerController!.chapterIsSave);
       });
       setFontConfig(isInit: true);
     });
@@ -676,6 +675,7 @@ class _BetterPlayerCupertinoControlsState
   @override
   void dispose() {
     _dispose();
+    saveController.close();
     super.dispose();
   }
 
@@ -1049,7 +1049,8 @@ class _BetterPlayerCupertinoControlsState
                             StreamBuilder<bool?>(
                                 stream: saveStream,
                                 builder: (context, snapshot) {
-                                  bool isSave = snapshot.data ?? false;
+                                  bool isSave = snapshot.data ??
+                                      _betterPlayerController!.chapterIsSave;
                                   return GestureDetector(
                                     behavior: HitTestBehavior.opaque,
                                     onTap: () {
