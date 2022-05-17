@@ -186,130 +186,144 @@ class _BetterPlayerCupertinoControlsState
           key: _scaffoldKey,
           backgroundColor: Colors.transparent,
           drawer: _betterPlayerController!.isFullScreen ? _buildDrawer() : null,
-          body: Stack(
-            children: [
-              buildLTRDirectionality(_buildMainWidget()),
-              StreamBuilder<String?>(
-                  stream: screenImageStream,
-                  builder: (context, snapshot) {
-                    String imageUrl = snapshot.data ?? '';
-                    return imageUrl.isEmpty
-                        ? SizedBox()
-                        : imageUrl == CHANGE_BRIGHTNESS
-                            ? Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.8),
-                                      borderRadius: BorderRadius.circular(3)),
-                                  width: 174,
-                                  height: 32,
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Icon(
-                                          Icons.wb_sunny_rounded,
-                                          color: Colors.white,
-                                          size: 22,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: LinearProgressIndicator(
-                                          value: _setBrightnessValue(),
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Color(0xff3470DD)),
-                                          minHeight: 3,
-                                          backgroundColor:
-                                              Colors.white.withOpacity(0.4),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 12,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                color: Colors.black87,
-                                height: double.infinity,
-                                width: double.infinity,
-                                padding: EdgeInsets.fromLTRB(190, 30, 180, 40),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                        child: Stack(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                          child: Image.file(File(imageUrl)),
-                                        ),
-                                        Positioned(
-                                          top: 0,
-                                          right: 0,
-                                          child: GestureDetector(
-                                            behavior: HitTestBehavior.opaque,
-                                            onTap: () {
-                                              if (!(_betterPlayerController!
-                                                      .isPlaying() ??
-                                                  false)) {
-                                                _onPlayPause();
-                                              }
-                                              _betterPlayerController!
-                                                  .screenImagePath = '';
-                                              screenImageController.sink
-                                                  .add('');
-                                            },
-                                            child: Container(
-                                              width: 24,
-                                              height: 24,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(180)),
-                                                  color: Colors.black
-                                                      .withOpacity(0.3)),
+          body: StreamBuilder<bool?>(
+              stream: saveStream,
+              builder: (context, snapshot) {
+                bool isSave =
+                    snapshot.data ?? _betterPlayerController!.chapterIsSave;
+                return Stack(
+                  children: [
+                    buildLTRDirectionality(_buildMainWidget(isSave)),
+                    StreamBuilder<String?>(
+                        stream: screenImageStream,
+                        builder: (context, snapshot) {
+                          String imageUrl = snapshot.data ?? '';
+                          return imageUrl.isEmpty
+                              ? SizedBox()
+                              : imageUrl == CHANGE_BRIGHTNESS
+                                  ? Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Colors.black.withOpacity(0.8),
+                                            borderRadius:
+                                                BorderRadius.circular(3)),
+                                        width: 174,
+                                        height: 32,
+                                        child: Row(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10),
                                               child: Icon(
-                                                Icons.close,
+                                                Icons.wb_sunny_rounded,
                                                 color: Colors.white,
+                                                size: 22,
                                               ),
                                             ),
-                                          ),
-                                        )
-                                      ],
-                                    )),
-                                    GestureDetector(
-                                      behavior: HitTestBehavior.opaque,
-                                      onTap: () {
-                                        _onExpandCollapse();
-                                      },
-                                      child: Container(
-                                        height: 38,
-                                        width: 127,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(90)),
-                                          color: Colors.white.withOpacity(0.3),
-                                        ),
-                                        child: Text(
-                                          '截图写笔记',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.white),
+                                            Expanded(
+                                              child: LinearProgressIndicator(
+                                                value: _setBrightnessValue(),
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                            Color>(
+                                                        Color(0xff3470DD)),
+                                                minHeight: 3,
+                                                backgroundColor: Colors.white
+                                                    .withOpacity(0.4),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 12,
+                                            )
+                                          ],
                                         ),
                                       ),
                                     )
-                                  ],
-                                ),
-                              );
-                  })
-            ],
-          )),
+                                  : Container(
+                                      color: Colors.black87,
+                                      height: double.infinity,
+                                      width: double.infinity,
+                                      padding:
+                                          EdgeInsets.fromLTRB(190, 30, 180, 40),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                              child: Stack(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 10, 10, 0),
+                                                child:
+                                                    Image.file(File(imageUrl)),
+                                              ),
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: GestureDetector(
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
+                                                  onTap: () {
+                                                    if (!(_betterPlayerController!
+                                                            .isPlaying() ??
+                                                        false)) {
+                                                      _onPlayPause();
+                                                    }
+                                                    _betterPlayerController!
+                                                        .screenImagePath = '';
+                                                    screenImageController.sink
+                                                        .add('');
+                                                  },
+                                                  child: Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    180)),
+                                                        color: Colors.black
+                                                            .withOpacity(0.3)),
+                                                    child: Icon(
+                                                      Icons.close,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )),
+                                          GestureDetector(
+                                            behavior: HitTestBehavior.opaque,
+                                            onTap: () {
+                                              _onExpandCollapse();
+                                            },
+                                            child: Container(
+                                              height: 38,
+                                              width: 127,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(90)),
+                                                color: Colors.white
+                                                    .withOpacity(0.3),
+                                              ),
+                                              child: Text(
+                                                '截图写笔记',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                        })
+                  ],
+                );
+              })),
     );
   }
 
@@ -438,7 +452,7 @@ class _BetterPlayerCupertinoControlsState
   }
 
   ///Builds main widget of the controls.
-  Widget _buildMainWidget() {
+  Widget _buildMainWidget(bool isCollectSave) {
     _betterPlayerController = BetterPlayerController.of(context);
 
     if (_latestValue?.hasError == true) {
@@ -470,7 +484,7 @@ class _BetterPlayerCupertinoControlsState
       if (_wasLoading)
         Expanded(child: Center(child: _buildLoadingWidget()))
       else
-        _buildHitArea(),
+        _buildHitArea(isCollectSave),
       _buildNextVideoWidget(),
       _buildBottomBar(
         backgroundColor,
@@ -675,7 +689,6 @@ class _BetterPlayerCupertinoControlsState
   @override
   void dispose() {
     _dispose();
-    saveController.close();
     super.dispose();
   }
 
@@ -945,7 +958,7 @@ class _BetterPlayerCupertinoControlsState
     );
   }
 
-  Expanded _buildHitArea() {
+  Expanded _buildHitArea(bool isCollectSave) {
     return Expanded(
       child: GestureDetector(
         onTap: _latestValue != null && _latestValue!.isPlaying
@@ -1046,45 +1059,38 @@ class _BetterPlayerCupertinoControlsState
                             SizedBox(
                               height: 30,
                             ),
-                            StreamBuilder<bool?>(
-                                stream: saveStream,
-                                builder: (context, snapshot) {
-                                  bool isSave = snapshot.data ??
-                                      _betterPlayerController!.chapterIsSave;
-                                  return GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () {
-                                      if (!_betterPlayerController!
-                                          .saveBtnCanClick) {
-                                        return;
-                                      }
-                                      _betterPlayerController!.saveBtnCanClick =
-                                          false;
-                                      if (_betterPlayerController!.onCollect !=
-                                          null) {
-                                        _betterPlayerController!.onCollect!();
-                                      }
-                                      saveController.sink.add(!isSave);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                          gradient: RadialGradient(
-                                        colors: [
-                                          Color(0xff000000).withOpacity(0.1),
-                                          Color(0xff000000).withOpacity(0)
-                                        ],
-                                      )),
-                                      child: Icon(
-                                        Icons.star_border,
-                                        size: 22,
-                                        color: isSave
-                                            ? Color(0xffFFB600)
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                  );
-                                })
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                if (!_betterPlayerController!.saveBtnCanClick) {
+                                  return;
+                                }
+                                _betterPlayerController!.saveBtnCanClick =
+                                    false;
+                                if (_betterPlayerController!.onCollect !=
+                                    null) {
+                                  _betterPlayerController!.onCollect!();
+                                }
+                                saveController.sink.add(!isCollectSave);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                    gradient: RadialGradient(
+                                  colors: [
+                                    Color(0xff000000).withOpacity(0.1),
+                                    Color(0xff000000).withOpacity(0)
+                                  ],
+                                )),
+                                child: Icon(
+                                  Icons.star_border,
+                                  size: 22,
+                                  color: isCollectSave
+                                      ? Color(0xffFFB600)
+                                      : Colors.white,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
