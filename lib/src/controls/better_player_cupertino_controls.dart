@@ -1072,6 +1072,8 @@ class _BetterPlayerCupertinoControlsState
                                   _betterPlayerController!.onCollect!();
                                 }
                                 saveController.sink.add(!isCollectSave);
+                                _betterPlayerController!.chapterIsSave =
+                                    !isCollectSave;
                               },
                               child: Container(
                                 padding: EdgeInsets.all(8),

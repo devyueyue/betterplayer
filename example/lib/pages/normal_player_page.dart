@@ -70,7 +70,10 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       ],
     );
 
-    _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
+    _betterPlayerController =
+        BetterPlayerController(betterPlayerConfiguration, onCollect: () {
+      _betterPlayerController.saveBtnCanClick = true;
+    });
     _betterPlayerController.setupDataSource(_betterPlayerDataSource);
     _betterPlayerController.setBetterPlayerControlsConfiguration(
         betterPlayerControlsConfiguration);
@@ -78,6 +81,7 @@ class _NormalPlayerPageState extends State<NormalPlayerPage> {
       // print(
       //     '--------hhhy---listener==${data}-----path==${_betterPlayerController.screenImagePath}');
     });
+    _betterPlayerController.chapterIsSave = false;
 
     super.initState();
   }
