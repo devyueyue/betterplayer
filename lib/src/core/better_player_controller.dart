@@ -214,9 +214,13 @@ class BetterPlayerController {
   ///Currently displayed [BetterPlayerSubtitle].
   BetterPlayerSubtitle? renderedSubtitle;
 
+  ///收藏按钮点击
+  Function? onCollect;
+
   BetterPlayerController(
     this.betterPlayerConfiguration, {
     this.betterPlayerPlaylistConfiguration,
+    this.onCollect,
     BetterPlayerDataSource? betterPlayerDataSource,
   }) {
     this._betterPlayerControlsConfiguration =
